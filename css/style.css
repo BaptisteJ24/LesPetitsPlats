@@ -1,0 +1,38 @@
+/* Les petits plats */
+
+* {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.h1 {
+    font-family: 'DM Sans';
+    font-weight: 700;
+    font-size: 36px;
+}
+
+.header__title {
+    color: #D04F4F;
+}
+
+.search-bar {
+    border-radius: 5px;
+}
+
+.main__search-bar {
+    background-color : #E7E7E7;
+    width : 100%;
+    border: 0;
+    padding: 20px;
+}
