@@ -84,7 +84,7 @@ const recipeFactory = (recipe) => {
             return recipeCard;
         };
 
-        return { id, name, servings, ingredients, time, description, appliance, ustensils, getRecipeCardDOM };
+        return { id, name, servings, ingredients, time, description, appliance, ustensils, getRecipeCardDOM};
     }
     catch (error) {
         console.log(error);

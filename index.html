@@ -5,10 +5,12 @@
     <link href="./css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="./assets/favicon.png">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Lato:wght@400;700&family=Roboto&display=swap"
+        rel="stylesheet">
     <script src="https://kit.fontawesome.com/b84ad8c20e.js" crossorigin="anonymous"></script>
     <title>Les petits plats</title>
 </head>
@@ -19,27 +21,34 @@
         <h1 class="h1 header__title">Les petits plats</h1>
     </header>
     <main id="main">
-        <div class="search-bar__container">
+        <div class="container search-bar__container">
             <label for="search-bar" class="sr-only">Rechercher une recette</label>
             <input type="search" id="search-bar" class="search-bar" placeholder="Rechercher une recette">
             <i class="fa-solid fa-magnifying-glass fa-lg search-bar__icon"></i>
         </div>
-        <div class="sorting-bar__container">
+        <div class="container">
+            <ul id="tag-list" class="tag-list">
+            </ul>
+        </div>
+        <div class="container sorting-bar__container">
             <div class="sorting-bar sorting-bar--blue">
                 <label for="ingredients" class="sr-only">Ingrédients</label>
                 <input type="search" id="ingredients" class="sorting-bar__search" placeholder="Ingrédients">
                 <label for="ingredients-list" class="sr-only">Liste d'ingrédients</label>
-                <button class="btn-chevron" id="ingredients-list" type="button"><span class="sr-only">Liste d'ingrédients</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
+                <button class="btn-chevron" id="ingredients-list" type="button"><span class="sr-only">Liste
+                        d'ingrédients</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
             </div>
             <div class="sorting-bar sorting-bar--green">
                 <label for="appliance" class="sr-only">Appareils</label>
                 <input type="search" id="appliance" class="sorting-bar__search" placeholder="Appareils">
-                <button class="btn-chevron" id="appliance-list" type="button"><span class="sr-only">Liste d'appareils</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
+                <button class="btn-chevron" id="appliance-list" type="button"><span class="sr-only">Liste
+                        d'appareils</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
             </div>
             <div class="sorting-bar sorting-bar--orange">
                 <label for="ustensils" class="sr-only">Ustensiles</label>
                 <input type="search" id="ustensils" class="sorting-bar__search" placeholder="Ustensiles">
-                <button class="btn-chevron" id="ustensils-list" type="button"><span class="sr-only">Liste d'ustensiles</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
+                <button class="btn-chevron" id="ustensils-list" type="button"><span class="sr-only">Liste
+                        d'ustensiles</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
             </div>
         </div>
 

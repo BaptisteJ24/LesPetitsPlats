@@ -1,5 +1,3 @@
-import { errorDOM } from "./error.js";
-
 /**
  * description : set attributes to an element.
  * @param {HTMLElement} el - element to set attributes.
@@ -19,7 +17,7 @@ const setAttributes = (el, attrs) => {
 /**
  * description : get all data from a json file.
  * @param {string} url - url of the json file.
- * @returns {Object} - data from the json file.
+ * @returns {Promise<Object[]>} - data from the json file.
  * @example getAllData("./data.json") => { "data": [ { "id": 1, "name": "name1" }, { "id": 2, "name": "name2" } ] }
  */
 const getAllData = async (url) => {
@@ -37,7 +35,7 @@ const getAllData = async (url) => {
  * description : get data from a json file by property.
  * @param {string} url - url of the json file.
  * @param {string} property - property of the json file.
- * @returns {Array} - data from the json file.
+ * @returns {Promise<Object[]>} - data from the json file.
  * @example getDataByProperty("./data.json", "data") => [ { "id": 1, "name": "name1" }, { "id": 2, "name": "name2" } ]
  */
 const getDataByProperty = async (url, property) => {
@@ -45,11 +43,12 @@ const getDataByProperty = async (url, property) => {
         const data = await getAllData(url);
         const dataByProperty = data[property];
         return dataByProperty;
-    }
-    catch (error) {
+    } catch (error) {
         console.error(`Erreur lors de la récupération des données : ${error}`);
     }
 };
+  
+
 
 /**
  * description : get data from a json file by id.
@@ -57,7 +56,7 @@ const getDataByProperty = async (url, property) => {
  * @param {string} property - property of the json file.
  * @param {number} id - id of the data.
  * @param {string} propertyId - property of the data.
- * @returns {Array} - data from the json file.
+ * @returns {Promise<Object[]>} - data from the json file.
  * @example getDataById("./data.json", "data", 1, "id") => [ { "id": 1, "name": "name1" } ]
  */
 const getDataById = async (url, property = null, id, propertyId = "id") => { // params: string, string, number, string. Return: array
@@ -82,10 +81,6 @@ const getDataById = async (url, property = null, id, propertyId = "id") => { // 
         return dataById;
     }
     catch (error) {
-        document.querySelector(".loader-container").innerHTML = "";
-        document.querySelector(".loader-container").style.display = "none";
-        document.querySelector("main").innerHTML = "";
-        document.querySelector("main").append(errorDOM());
         console.error(`Erreur lors de la récupération des données : ${error}`);
     }
 };

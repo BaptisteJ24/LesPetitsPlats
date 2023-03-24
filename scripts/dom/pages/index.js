@@ -6,22 +6,20 @@ let ingredientsArray = [];
 let appliancesArray = [];
 let ustensilsArray = [];
 
-/**
- * description : get all recipes form recipes.json file
- */
 const getRecipes = async () => {
     try {
-        const recipesArray = await getDataByProperty("./data/recipes.json", "recipes");
-        return ({ recipes: recipesArray });
+        const recipesObj = await getDataByProperty("./data/recipes.json", "recipes");
+        return ({ recipes: recipesObj });
     }
     catch (error) {
-        console.error("Erreur lors de la récupération des données : ", error);
+        console.error("Erreur lors de la récupération des recettes : ", error);
+        return Promise.reject(error);
     }
 };
 
 const displayRecipes = async (recipes) => {
     const recipeList = document.querySelector(".recipe__list");
-    
+
     recipes.map((recipe) => {
         const recipeModel = recipeFactory(recipe);
         const recipeCardDOM = recipeModel.getRecipeCardDOM();
@@ -32,18 +30,19 @@ const displayRecipes = async (recipes) => {
 const initRecipes = async () => {
     const { recipes } = await getRecipes();
     displayRecipes(recipes);
+    getAllIngredients(recipes);
+    getAllAppliances(recipes);
+    getAllUstensils(recipes);
 };
 
-const getIngredients = async () => {
-    const { recipes } = await getRecipes();
-
+const getAllIngredients = async (recipes) => {
     const ingredientsMap = new Map();
 
     recipes.forEach((recipe) => {
         recipe.ingredients.forEach((ingredient) => {
             const { ingredient: ingredientName } = ingredient;
             const formattedIngredient = ingredientName.toLowerCase().trim();
-            const singularIngredient = formattedIngredient.replace(/s$/, '');
+            const singularIngredient = formattedIngredient.replace(/s$/, "");
             if (!ingredientsMap.has(singularIngredient)) {
                 ingredientsMap.set(singularIngredient, formattedIngredient);
                 ingredientsArray.push(formattedIngredient.charAt(0).toUpperCase() + formattedIngredient.slice(1));
@@ -56,9 +55,7 @@ const getIngredients = async () => {
     return ingredientsArray;
 };
 
-const getAppliances = async () => {
-    const { recipes } = await getRecipes();
-
+const getAllAppliances = async (recipes) => {
     appliancesArray = recipes.reduce((acc, recipe) => {
         const { appliance } = recipe;
         const formattedAppliance = appliance.toLowerCase().trim();
@@ -73,9 +70,7 @@ const getAppliances = async () => {
     return appliancesArray;
 };
 
-const getUstensils = async () => {
-    const { recipes } = await getRecipes();
-
+const getAllUstensils = async (recipes) => {
     ustensilsArray = recipes.reduce((acc, recipe) => {
         recipe.ustensils.forEach((ustensil) => {
             const formattedUstensil = ustensil.toLowerCase().trim();
@@ -92,4 +87,4 @@ const getUstensils = async () => {
 };
 
 
-export { initRecipes, getIngredients, getAppliances, getUstensils };
+export { initRecipes, getAllIngredients, getAllAppliances, getAllUstensils };
