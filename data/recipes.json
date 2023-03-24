@@ -29,7 +29,7 @@
                 }
             ],
             "time": 10,
-            "description": "Mettre les glaçons à votre goût dans le blender, ajouter le lait, la crème de coco, le jus de 2 citrons et le sucre. Mixer jusqu'à avoir la consistence désirée",
+            "description": "Mettre les glaçons à votre goût dans le blender, ajouter le lait, la crème de coco, le jus de 2 citrons et le sucre. Mixer jusqu'à avoir la consistence désirée.",
             "appliance": "Blender",
             "ustensils": [
                 "cuillère à Soupe",
@@ -325,7 +325,7 @@
         },
         {
             "id": 9,
-            "name": "Salade Méditerannéene fraîche au chèvre",
+            "name": "Salade Méditerannéenne fraîche au chèvre",
             "servings": 4,
             "ingredients": [
                 {
@@ -351,7 +351,7 @@
                 }
             ],
             "time": 15,
-            "description": "Peler le concombre le couper 2, retirer les pépins. Couper les olives en morceaux, ainsi que le fromage de chèvre. Ajouter le basilic ainsi que le vinaigre balsamic et l'huile d'olives à votre gout.",
+            "description": "Peler le concombre le couper 2, retirer les pépins. Couper les olives en morceaux, ainsi que le fromage de chèvre. Ajouter le basilic ainsi que le vinaigre balsamic et l'huile d'olive à votre gout.",
             "appliance": "Saladier",
             "ustensils": [
                 "cuillère en bois",
@@ -621,7 +621,7 @@
                     "unit": "tiges"
                 },
                 {
-                    "ingredient": "huile d'olives",
+                    "ingredient": "huile d'olive",
                     "quantity": 2,
                     "unit": "cuillère à soupe"
                 }
@@ -997,7 +997,7 @@
                     "quantity": 1
                 },
                 {
-                    "ingredient": "Huile d'olives"
+                    "ingredient": "huile d'olive"
                 },
                 {
                     "ingredient": "Oignon",
@@ -1173,7 +1173,7 @@
                     "unit": "grammes"
                 },
                 {
-                    "ingredient": "Petits poids",
+                    "ingredient": "Petits pois",
                     "quantity": 100,
                     "unit": "grammes"
                 },
@@ -1184,7 +1184,7 @@
                 }
             ],
             "time": 60,
-            "description": "Découper en cubes les carottes et pommes de terre. Faire revenir dans du beurre. Ajouter les lardons, une fois les lardons dorés, ajouter un grand verre d'eau. Ajouter les petit poids et les haricots verts ( tous deux pré cuits ). Ajouter Sel, poivre, thyms et laurier",
+            "description": "Découper en cubes les carottes et pommes de terre. Faire revenir dans du beurre. Ajouter les lardons, une fois les lardons dorés, ajouter un grand verre d'eau. Ajouter les petits pois et les haricots verts ( tous deux pré cuits ). Ajouter Sel, poivre, thyms et laurier",
             "appliance": "Poêle",
             "ustensils": [
                 "Couteau",
@@ -1407,7 +1407,7 @@
                     "unit": "grammes"
                 },
                 {
-                    "ingredient": "Huile d'olives",
+                    "ingredient": "huile d'olive",
                     "quantity": 25,
                     "unit": "cl"
                 },

@@ -1,0 +1,41 @@
+{
+  "name": "projet_7_lespetitsplats",
+  "version": "1.0.0",
+  "description": "Mission : Développez un algorithme de recherche en JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "start": "webpack serve --config ./webpack.config.js --mode development",
+    "prefix": "postcss ./css/style.css --use autoprefixer -d ./css/prefixed/",
+    "watch": "webpack --watch",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaptisteJ24/Projet_7_LesPetitsPlats.git"
+  },
+  "author": "Baptiste JAN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BaptisteJ24/Projet_7_LesPetitsPlats/issues"
+  },
+  "homepage": "https://github.com/BaptisteJ24/Projet_7_LesPetitsPlats#readme",
+  "browserslist": "last 4 versions",
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^9.1.2",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^8.35.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "json5": "^2.2.3"
+  }
+}

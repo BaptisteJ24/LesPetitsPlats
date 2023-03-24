@@ -7,6 +7,10 @@
     box-sizing: border-box;
 }
 
+body {
+    padding: 40px 100px;
+}
+
 
 .header {
     display: flex;
@@ -24,15 +28,221 @@
 
 .header__title {
     color: #D04F4F;
+    margin-bottom: 20px;
 }
 
 .search-bar {
     border-radius: 5px;
-}
-
-.main__search-bar {
     background-color : #E7E7E7;
     width : 100%;
     border: 0;
     padding: 20px;
+    font-size: 18px;
+}
+
+.search-bar::placeholder {
+    color: rgba(0, 0, 0, 0.30);
+}
+
+.search-bar__container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.search-bar__icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.sorting-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 170px;
+    height: 70px;
+    padding: 0 20px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.sorting-bar__container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.sorting-bar--blue {
+    background-color: #3282F7;
+}
+
+.sorting-bar--green {
+    background-color: #68D9A4;
+}
+
+.sorting-bar--orange {
+    background-color: #ED6454;
+}
+
+.sorting-bar__search {
+    background-color: transparent;
+    border: 0;
+    color: #FFFFFF;
+    width: 100%;
+    font-size: 18px;
+}
+
+.sorting-bar__search::placeholder {
+    color: #FFFFFF;
+}
+
+.sorting-bar__search:focus {
+    outline: none;
+}
+
+.sorting-bar__icon {
+    color : #FFFFFF;
+}
+
+.recipe__section {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px -10px 0;
+}
+
+.recipe__list {
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.recipe__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 30%;
+    min-width: 380px;
+    margin: 0 10px 50px;
+    height: 360px;
+    background-color: #E7E7E7;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.recipe__img-container {
+    height: 50%;
+    width: 100%;
+}
+
+.recipe__img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+    background-color: #C7BEBE;
+}
+
+.recipe__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    padding: 20px;
+    overflow: hidden;
+  }
+  
+  .recipe__title-time {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .recipe__title {
+    font-size: 18px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 70%;
+  }
+  
+  .recipe__time-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 30%;
+  }
+  
+  .recipe__time {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  
+  .recipe__time-icon {
+    margin-right: 7px;
+  }
+  
+  .recipe__details {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+  }
+  
+  .recipe__ingredients {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 49%;
+    text-overflow: ellipsis;
+  }
+  
+  .recipe__ingredient {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .recipe__ingredient--bold {
+    font-weight: 700;
+  }
+  
+  .recipe__description {
+    width: 49%;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    text-align: justify;
+}
+  
+.btn-chevron {
+    border: 0;
+    background-color: transparent;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0; 
 }
