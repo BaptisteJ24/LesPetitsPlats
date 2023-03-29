@@ -5,7 +5,7 @@ import { displayRecipes, displayItemsInList } from "../../utils/display.js";
 
 
 const initRecipes = async () => {
-    const { recipes } = await getAllRecipes();
+    const recipes = await getAllRecipes();
     const ingredients = await getAllIngredients(recipes);
     const appliances = await getAllAppliances(recipes);
     const ustensils = await getAllUstensils(recipes);

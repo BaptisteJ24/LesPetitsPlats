@@ -19,9 +19,9 @@ let filterRecipesMap = new Map();
 
 
 const getRecipesBySearch = async (search) => {
-    filterRecipes = []; // on vide le tableau des recettes filtrées
-    filterRecipesMap = new Map(); // on vide la map des recettes filtrées
-    const allRecipesArray = Object.values(await getAllRecipes())[0];
+    filterRecipes = [];
+    filterRecipesMap = new Map();
+    const allRecipesArray = await getAllRecipes();
     console.log("allRecipes", allRecipesArray);
 
     for (let i = 0; i < allRecipesArray.length; i++) {
@@ -39,6 +39,7 @@ const getRecipesBySearch = async (search) => {
             }
         }
     }
+
     return filterRecipes;
 }
 

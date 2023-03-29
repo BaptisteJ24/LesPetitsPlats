@@ -6,12 +6,12 @@ let ustensilsArray = [];
 
 /**
  * @description Récupère les recettes depuis le fichier JSON.
- * @returns {Object} Retourne un objet contenant les recettes.
+ * @returns 
  */
 const getAllRecipes = async () => {
     try {
         const recipesObj = await getDataByProperty("./data/recipes.json", "recipes");
-        return ({ recipes: recipesObj });
+        return recipesObj;
     }
     catch (error) {
         throw new Error("Erreur lors de la récupération des recettes : " + error);
