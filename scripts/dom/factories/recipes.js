@@ -15,6 +15,7 @@ const recipeFactory = (recipe) => {
             const recipeImg = document.createElement("div");
             setAttributes(recipeImg, { "class": "recipe__img" });
 
+            // TODO: add image
             /* 
             const recipeImg = document.createElement("img");
             setAttributes(recipeImg, { "class": "recipe__img", "src": "", "alt": "recipe image description" });

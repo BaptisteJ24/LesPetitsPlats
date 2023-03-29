@@ -5,6 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "webpack serve --config ./webpack.config.js --mode development",
+    "sass" : "sass --watch ./sass/main.scss:./css/style.css --style compressed",
     "prefix": "postcss ./css/style.css --use autoprefixer -d ./css/prefixed/",
     "watch": "webpack --watch",
     "lint": "eslint ."
@@ -36,6 +37,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "json5": "^2.2.3"
+    "json5": "^2.2.3",
+    "sass": "^1.60.0"
   }
 }

@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+    <link href="./css/prefixed/style.css" rel="stylesheet" type="text/css">
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="./assets/favicon.png">
 
@@ -17,42 +17,71 @@
 
 <body>
     <header class="header">
-        <img src="./assets/logo.svg" class="header__logo" alt="Les Petits Plats Home Page" />
+        <img src="./assets/logo.svg" class="header__logo" alt="Les Petits Plats Home Page">
         <h1 class="h1 header__title">Les petits plats</h1>
     </header>
     <main id="main">
         <div class="container search-bar__container">
-            <label for="search-bar" class="sr-only">Rechercher une recette</label>
             <input type="search" id="search-bar" class="search-bar" placeholder="Rechercher une recette">
-            <i class="fa-solid fa-magnifying-glass fa-lg search-bar__icon"></i>
+            <label for="search-bar" aria-label="Rechercher uen recette">
+                <span class="fa-solid fa-magnifying-glass fa-lg search-bar__icon" aria-hidden="true"></span>
+            </label>
         </div>
         <div class="container">
-            <ul id="tag-list" class="tag-list">
-            </ul>
+            <ul id="tag-list" class="tag-list"></ul>
         </div>
         <div class="container sorting-bar__container">
-            <div class="sorting-bar sorting-bar--blue">
-                <label for="ingredients" class="sr-only">Ingrédients</label>
-                <input type="search" id="ingredients" class="sorting-bar__search" placeholder="Ingrédients">
-                <label for="ingredients-list" class="sr-only">Liste d'ingrédients</label>
-                <button class="btn-chevron" id="ingredients-list" type="button"><span class="sr-only">Liste
-                        d'ingrédients</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
+            <div id="sorting-bar-ingredients" class="sorting-bar sorting-bar--blue" role="listbox" aria-expanded="false" tabindex="0">
+                <div class="sorting-bar__search-container">
+                    <label for="ingredients" class="sorting-bar__label">
+                        <span class="sorting-bar__label-title">Ingrédients</span> <!-- ajouter class sr-only quand liste ouverte -->
+                        <input type="search" id="ingredients" class="sorting-bar__search hidden" placeholder="Rechercher un ingrédient">
+                        <span class="fa-solid fa-chevron-down sorting-bar__icon" aria-hidden="true"></span>
+                    </label>
+                </div>
+                <ul id="ingredients-list" class="sorting-bar__list sorting-bar__list--blue hidden">
+                    <li class="sorting-bar__item">Fromage</li>
+                    <li class="sorting-bar__item">Beurre</li>
+                    <li class="sorting-bar__item">Lait</li>
+                    <li class="sorting-bar__item">Saucisson</li>
+                    <li class="sorting-bar__item">Pain</li>
+                </ul>
             </div>
-            <div class="sorting-bar sorting-bar--green">
-                <label for="appliance" class="sr-only">Appareils</label>
-                <input type="search" id="appliance" class="sorting-bar__search" placeholder="Appareils">
-                <button class="btn-chevron" id="appliance-list" type="button"><span class="sr-only">Liste
-                        d'appareils</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
+            <div id="sorting-bar-appliances" class="sorting-bar sorting-bar--green" role="listbox" aria-expanded="false" tabindex="0">
+                <div class="sorting-bar__search-container">
+                    <label for="appliances" class="sorting-bar__label">
+                        <span class="sorting-bar__label-title">Appareils</span> <!-- ajouter class sr-only quand liste ouverte -->
+                        <input type="search" id="appliances" class="sorting-bar__search hidden" placeholder="Rechercher un appareil">
+                        <span class="fa-solid fa-chevron-down sorting-bar__icon" aria-hidden="true"></span>
+                    </label>
+                </div>
+                <ul id="appliances-list" class="sorting-bar__list sorting-bar__list--green hidden">
+                    <li class="sorting-bar__item">Four</li>
+                    <li class="sorting-bar__item">Micro-ondes</li>
+                    <li class="sorting-bar__item">Friteuse</li>
+                    <li class="sorting-bar__item">Plaque à induction</li>
+                    <li class="sorting-bar__item">Plaque à gaz</li>
+                </ul>
             </div>
-            <div class="sorting-bar sorting-bar--orange">
-                <label for="ustensils" class="sr-only">Ustensiles</label>
-                <input type="search" id="ustensils" class="sorting-bar__search" placeholder="Ustensiles">
-                <button class="btn-chevron" id="ustensils-list" type="button"><span class="sr-only">Liste
-                        d'ustensiles</span><i class="fa-solid fa-chevron-down sorting-bar__icon"></i></button>
+            <div id="sorting-bar-ustensils" class="sorting-bar sorting-bar--orange" role="listbox" aria-expanded="false" tabindex="0">
+                <div class="sorting-bar__search-container">
+                    <label for="ustensils" class="sorting-bar__label">
+                        <span class="sorting-bar__label-title">Ustensiles</span> <!-- ajouter class sr-only quand liste ouverte -->
+                        <input type="search" id="ustensils" class="sorting-bar__search hidden" placeholder="Rechercher un ustensile">
+                        <span class="fa-solid fa-chevron-down sorting-bar__icon" aria-hidden="true"></span>
+                    </label>
+                </div>
+                <ul id="ustensils-list" class="sorting-bar__list sorting-bar__list--orange hidden">
+                    <li class="sorting-bar__item">Couteau</li>
+                    <li class="sorting-bar__item">Cuillère</li>
+                    <li class="sorting-bar__item">Moule</li>
+                    <li class="sorting-bar__item">Passoire</li>
+                    <li class="sorting-bar__item">Poêle</li>
+                </ul>
             </div>
         </div>
-
         <section class="recipe__section">
+            <h2 class="sr-only">Recettes</h2>
             <ul class="recipe__list"></ul>
         </section>
     </main>
