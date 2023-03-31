@@ -1,8 +1,11 @@
-import { getDataByProperty } from "./utils.js";
+import { getDataByProperty } from "../../utils/helpers.js";
+
 
 let ingredientsArray = [];
 let appliancesArray = [];
 let ustensilsArray = [];
+let filterRecipes = [];
+let filterRecipesMap = new Map();
 
 /**
  * @description Récupère les recettes depuis le fichier JSON.
@@ -17,7 +20,6 @@ const getAllRecipes = async () => {
         throw new Error("Erreur lors de la récupération des recettes : " + error);
     }
 };
-
 
 const getAllIngredients = async (recipes) => {
     const ingredientsMap = new Map();
@@ -64,4 +66,29 @@ const getAllUstensils = async (recipes) => {
     return ustensilsArray;
 };
 
-export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils };
+const getRecipesBySearch = async (search) => {
+    filterRecipes = [];
+    filterRecipesMap = new Map();
+    const allRecipesArray = await getAllRecipes();
+    console.log("allRecipes", allRecipesArray);
+
+    for (let i = 0; i < allRecipesArray.length; i++) {
+        if (allRecipesArray[i].name.toLowerCase().includes(search.toLowerCase()) || allRecipesArray[i].description.toLowerCase().includes(search.toLowerCase())) {
+            filterRecipes.push(allRecipesArray[i]);
+            filterRecipesMap.set(allRecipesArray[i].id, allRecipesArray[i]);
+        }
+        for (let j = 0; j < allRecipesArray[i].ingredients.length; j++) {
+            if (allRecipesArray[i].ingredients[j].ingredient.toLowerCase().includes(search.toLowerCase())) {
+                if (!filterRecipesMap.has(allRecipesArray[i].id)) {
+                    console.log("map", filterRecipesMap)
+                    filterRecipes.push(allRecipesArray[i]);
+                    filterRecipesMap.set(allRecipesArray[i].id, allRecipesArray[i]);
+                }
+            }
+        }
+    }
+
+    return filterRecipes;
+}
+
+export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesBySearch };

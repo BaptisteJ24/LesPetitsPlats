@@ -2,7 +2,7 @@ const path = require("path");
 const glob = require("glob");
 
 module.exports = {
-    entry: glob.sync("./scripts/**/*.js"),
+    entry: glob.sync("./js/**/*.js"),
     output: {
         path: path.resolve(__dirname, "./dist"),
         filename: "bundle.js"

@@ -1,9 +1,9 @@
-import { getTagDOM } from "../dom/components/tag.js";
+import { getTagDOM } from "../../models/tagModel.js";
 
 const displayNewTag = (tag, type) => {
     const tagDOM = getTagDOM(tag, type);
     const tagList = document.querySelector(".tag__list");
-    tagList.appendChild(tagDOM);
+    tagList.append(tagDOM);
 };
 
 export { displayNewTag };

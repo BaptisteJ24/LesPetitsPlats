@@ -1,8 +1,8 @@
-import { sortingBarEvent, sortingBarObj } from "../../components/sorting-list.js";
-import { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils } from "../../utils/get.js";
-import { displayRecipes, displayItemsInList } from "../../utils/display.js";
-
-
+import { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils } from "./get/get.js";
+import { displayRecipes } from "./display/recipes.js";
+import { displayItemsInFilterList } from "./display/filter-list.js";
+import { sortingBarEvent } from "../controllers/filter.js";
+import { sortingBarObj } from "../controllers/filter.js";
 
 const initRecipes = async () => {
     const recipes = await getAllRecipes();
@@ -27,7 +27,7 @@ const initRecipes = async () => {
             default:
                 break;
         }
-        displayItemsInList(sortingBarObj[key].list, items);
+        displayItemsInFilterList(sortingBarObj[key].list, items);
     });
     
     sortingBarEvent();
