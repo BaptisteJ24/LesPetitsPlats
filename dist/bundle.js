@@ -38,7 +38,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _views_display_recipes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../views/display/recipes.js */ \"./scripts/views/display/recipes.js\");\n\nvar searchBar = document.getElementById('search-bar');\nsearchBar.addEventListener('keyup', _views_display_recipes_js__WEBPACK_IMPORTED_MODULE_0__.displayRecipesBySearch);\n\n//# sourceURL=webpack://projet_7_lespetitsplats/./scripts/controllers/search.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _views_display_recipes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../views/display/recipes.js */ \"./scripts/views/display/recipes.js\");\n\nvar searchBar = document.getElementById(\"search-bar\");\nsearchBar.addEventListener(\"keyup\", _views_display_recipes_js__WEBPACK_IMPORTED_MODULE_0__.displayRecipesBySearch);\n\n//# sourceURL=webpack://projet_7_lespetitsplats/./scripts/controllers/search.js?");
 
 /***/ }),
 

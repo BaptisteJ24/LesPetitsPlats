@@ -19,7 +19,7 @@ const displayFilterList = async (e) => {
     if (currentList === null) {
         showFilterList(e);
     }
-}
+};
 
 const showFilterList = async (e) => {
     currentList = e.currentTarget;
@@ -30,7 +30,7 @@ const showFilterList = async (e) => {
     list.classList.remove("hidden");
     chevron.classList.replace("fa-chevron-down", "fa-chevron-up");
     document.addEventListener("click", checkClick);
-}
+};
 
 
 const hideFilterList = async () => {
@@ -42,13 +42,13 @@ const hideFilterList = async () => {
     chevron.classList.replace("fa-chevron-up", "fa-chevron-down");
     currentList = null;
     document.removeEventListener("click", checkClick); 
-}
+};
 
 
 const checkClick = (e) => {
     if (currentList.contains(e.target) !== true && e.target !== currentList) {
         hideFilterList();
     }
-}
+};
 
 export { displayItemsInFilterList, displayFilterList, currentList };

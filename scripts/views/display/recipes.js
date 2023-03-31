@@ -41,7 +41,7 @@ const displayRecipesBySearch = async (e) => {
     }
     displayRecipes(recipes);
     showNumberOfRecipes(recipes);
-}
+};
 
 
 export { displayRecipes, displayRecipesBySearch, numberOfRecipesContainer, numberOfRecipesDOM };

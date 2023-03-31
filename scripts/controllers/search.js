@@ -1,5 +1,5 @@
-import { displayRecipesBySearch } from '../views/display/recipes.js';
+import { displayRecipesBySearch } from "../views/display/recipes.js";
 
-const searchBar = document.getElementById('search-bar');
+const searchBar = document.getElementById("search-bar");
 
-searchBar.addEventListener('keyup', displayRecipesBySearch);
+searchBar.addEventListener("keyup", displayRecipesBySearch);

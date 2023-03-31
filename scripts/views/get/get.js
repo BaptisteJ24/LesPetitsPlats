@@ -80,7 +80,7 @@ const getRecipesBySearch = async (search) => {
         for (let j = 0; j < allRecipesArray[i].ingredients.length; j++) {
             if (allRecipesArray[i].ingredients[j].ingredient.toLowerCase().includes(search.toLowerCase())) {
                 if (!filterRecipesMap.has(allRecipesArray[i].id)) {
-                    console.log("map", filterRecipesMap)
+                    console.log("map", filterRecipesMap);
                     filterRecipes.push(allRecipesArray[i]);
                     filterRecipesMap.set(allRecipesArray[i].id, allRecipesArray[i]);
                 }
@@ -89,6 +89,6 @@ const getRecipesBySearch = async (search) => {
     }
 
     return filterRecipes;
-}
+};
 
 export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesBySearch };

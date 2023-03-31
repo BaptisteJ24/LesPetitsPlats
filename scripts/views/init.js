@@ -15,17 +15,17 @@ const initRecipes = async () => {
     let items;
     Object.keys(sortingBarObj).forEach((key) => {
         switch (key) {
-            case "sorting-bar-ingredients":
-                items = ingredients;
-                break;
-            case "sorting-bar-appliances":
-                items = appliances;
-                break;
-            case "sorting-bar-ustensils":
-                items = ustensils;
-                break;
-            default:
-                break;
+        case "sorting-bar-ingredients":
+            items = ingredients;
+            break;
+        case "sorting-bar-appliances":
+            items = appliances;
+            break;
+        case "sorting-bar-ustensils":
+            items = ustensils;
+            break;
+        default:
+            break;
         }
         displayItemsInFilterList(sortingBarObj[key].list, items);
     });

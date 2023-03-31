@@ -1,3 +1,3 @@
-import { initRecipes } from './views/init.js';
+import { initRecipes } from "./views/init.js";
 
 initRecipes();
