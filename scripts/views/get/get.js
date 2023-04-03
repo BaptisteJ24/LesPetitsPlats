@@ -5,9 +5,7 @@ let ingredientsArray = [];
 let appliancesArray = [];
 let ustensilsArray = [];
 let filterRecipes = [];
-let filterRecipesMap = new Map();
 let filterItems = [];
-let filterItemsMap = new Map();
 
 /**
  * @description Récupère les recettes depuis le fichier JSON.
@@ -71,31 +69,19 @@ const getAllUstensils = async (recipes) => {
 
 const getRecipesBySearch = async (search) => {
     filterRecipes = [];
-    filterRecipesMap = new Map();
     const allRecipesArray = await getAllRecipes();
 
-    for (let i = 0; i < allRecipesArray.length; i++) {
-        if (allRecipesArray[i].name.toLowerCase().includes(search.toLowerCase()) || allRecipesArray[i].description.toLowerCase().includes(search.toLowerCase())) {
-            filterRecipes.push(allRecipesArray[i]);
-            filterRecipesMap.set(allRecipesArray[i].id, allRecipesArray[i]);
-        }
-        for (let j = 0; j < allRecipesArray[i].ingredients.length; j++) {
-            if (allRecipesArray[i].ingredients[j].ingredient.toLowerCase().includes(search.toLowerCase())) {
-                if (!filterRecipesMap.has(allRecipesArray[i].id)) {
-                    console.log("map", filterRecipesMap);
-                    filterRecipes.push(allRecipesArray[i]);
-                    filterRecipesMap.set(allRecipesArray[i].id, allRecipesArray[i]);
-                }
-            }
-        }
-    }
+    filterRecipes = allRecipesArray.filter((recipe) => {
+        return recipe.name.toLowerCase().includes(search.toLowerCase()) || recipe.description.toLowerCase().includes(search.toLowerCase()) || recipe.ingredients.some((ingredient) => {
+            return ingredient.ingredient.toLowerCase().includes(search.toLowerCase());
+        });
+    });
 
     return filterRecipes;
 };
 
 const getFilterListItemsBySearch = async (search, list) => {
     filterItems = [];
-    filterItemsMap = new Map();
     let filterList;
     const result = await initRecipes();
 
@@ -114,12 +100,9 @@ const getFilterListItemsBySearch = async (search, list) => {
     }
     const itemsArray = filterList;
 
-    for (let i = 0; i < itemsArray.length; i++) {
-        if (itemsArray[i].toLowerCase().includes(search.toLowerCase())) {
-            filterItemsMap.set(itemsArray[i].id, itemsArray[i]);
-            filterItems.push(itemsArray[i]);
-        }
-    }
+    filterItems = itemsArray.filter((item) => {
+        return item.toLowerCase().includes(search.toLowerCase());
+    });
 
     return filterItems;
 };
