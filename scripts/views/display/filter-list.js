@@ -1,6 +1,8 @@
 import { getFilterListItemDOM } from "../../models/filter-listModel.js";
-import { sortingBarObj } from "../../controllers/filter.js";
+import { sortingBarObj, sortingBarItemsEvent} from "../../controllers/filter.js";
+import { getFilterListItemsBySearch } from "../get/get.js";
 
+let currentListContainer = null; /* stocke le conteneur de la liste actuellement déroulée */
 let currentList = null; /* stocke la liste actuellement déroulée */
 
 const displayItemsInFilterList = (list, items) => {
@@ -9,22 +11,25 @@ const displayItemsInFilterList = (list, items) => {
         const itemDOM = getFilterListItemDOM(item);
         list.appendChild(itemDOM);
     });
+    sortingBarItemsEvent(list);
 };
 
 const displayFilterList = async (e) => {
-    if (currentList !== null && e.currentTarget !== currentList) {
+    if (currentListContainer !== null && e.currentTarget !== currentListContainer) {
         hideFilterList(e);
         showFilterList(e);
     }
-    if (currentList === null) {
+    if (currentListContainer === null) {
         showFilterList(e);
     }
 };
 
 const showFilterList = async (e) => {
-    currentList = e.currentTarget;
-    const { labelTitle, searchInput, chevron, list } = sortingBarObj[currentList.id];
-    currentList.classList.add("sorting-bar--large");
+    currentListContainer = e.currentTarget;
+    const { labelTitle, searchInput, chevron, list } = sortingBarObj[currentListContainer.id];
+    currentList = list;
+    currentListContainer.classList.add("sorting-bar--large");
+    currentListContainer.setAttribute("aria-expanded", "true");
     labelTitle.classList.add("hidden");
     searchInput.classList.remove("hidden");
     list.classList.remove("hidden");
@@ -34,21 +39,30 @@ const showFilterList = async (e) => {
 
 
 const hideFilterList = async () => {
-    const { labelTitle, searchInput, chevron, list } = sortingBarObj[currentList.id];
-    currentList.classList.remove("sorting-bar--large");
+    const { labelTitle, searchInput, chevron, list } = sortingBarObj[currentListContainer.id];
+    currentListContainer.classList.remove("sorting-bar--large");
+    currentListContainer.setAttribute("aria-expanded", "false");
     labelTitle.classList.remove("hidden");
     searchInput.classList.add("hidden");
     list.classList.add("hidden");
     chevron.classList.replace("fa-chevron-up", "fa-chevron-down");
+    currentListContainer = null;
+    searchInput.value = "";
     currentList = null;
     document.removeEventListener("click", checkClick); 
 };
 
 
 const checkClick = (e) => {
-    if (currentList.contains(e.target) !== true && e.target !== currentList) {
+    if (currentListContainer.contains(e.target) !== true && e.target !== currentListContainer) {
         hideFilterList();
     }
 };
 
-export { displayItemsInFilterList, displayFilterList, currentList };
+const displayFilterListBySearch = async (e) => {
+    let filterListSearch = e.target.value;
+    let items = await getFilterListItemsBySearch(filterListSearch, currentListContainer.id);
+    displayItemsInFilterList(currentList, items);
+};
+
+export { displayItemsInFilterList, displayFilterList, displayFilterListBySearch };

@@ -11,7 +11,6 @@ const numberOfRecipesDOM = document.querySelector(".search-bar__number-of-recipe
  * @param {Object[]} recipes - Tableau d'objets contenant les recettes.
  */
 const displayRecipes = async (recipes) => {
-    
     recipeList.innerHTML = "";
     recipes.map((recipe) => {
         const recipeModel = recipeFactory(recipe);

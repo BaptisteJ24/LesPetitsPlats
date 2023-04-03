@@ -31,6 +31,8 @@ const initRecipes = async () => {
     });
     
     sortingBarEvent();
+
+    return { recipes, ingredients, appliances, ustensils };
 };
 
 export { initRecipes };

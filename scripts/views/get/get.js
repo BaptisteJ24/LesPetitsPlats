@@ -1,11 +1,13 @@
 import { getDataByProperty } from "../../utils/helpers.js";
-
+import { initRecipes } from "../init.js";
 
 let ingredientsArray = [];
 let appliancesArray = [];
 let ustensilsArray = [];
 let filterRecipes = [];
 let filterRecipesMap = new Map();
+let filterItems = [];
+let filterItemsMap = new Map();
 
 /**
  * @description Récupère les recettes depuis le fichier JSON.
@@ -22,8 +24,8 @@ const getAllRecipes = async () => {
 };
 
 const getAllIngredients = async (recipes) => {
+    ingredientsArray = [];
     const ingredientsMap = new Map();
-
     recipes.forEach((recipe) => {
         recipe.ingredients.forEach((ingredient) => {
             const { ingredient: ingredientName } = ingredient;
@@ -35,11 +37,11 @@ const getAllIngredients = async (recipes) => {
             }
         });
     });
-
     return ingredientsArray;
 };
 
 const getAllAppliances = async (recipes) => {
+    appliancesArray = [];
     appliancesArray = recipes.reduce((acc, recipe) => {
         const { appliance } = recipe;
         const formattedAppliance = appliance.toLowerCase().trim();
@@ -53,6 +55,7 @@ const getAllAppliances = async (recipes) => {
 };
 
 const getAllUstensils = async (recipes) => {
+    ustensilsArray = [];
     ustensilsArray = recipes.reduce((acc, recipe) => {
         recipe.ustensils.forEach((ustensil) => {
             const formattedUstensil = ustensil.toLowerCase().trim();
@@ -70,7 +73,6 @@ const getRecipesBySearch = async (search) => {
     filterRecipes = [];
     filterRecipesMap = new Map();
     const allRecipesArray = await getAllRecipes();
-    console.log("allRecipes", allRecipesArray);
 
     for (let i = 0; i < allRecipesArray.length; i++) {
         if (allRecipesArray[i].name.toLowerCase().includes(search.toLowerCase()) || allRecipesArray[i].description.toLowerCase().includes(search.toLowerCase())) {
@@ -91,4 +93,35 @@ const getRecipesBySearch = async (search) => {
     return filterRecipes;
 };
 
-export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesBySearch };
+const getFilterListItemsBySearch = async (search, list) => {
+    filterItems = [];
+    filterItemsMap = new Map();
+    let filterList;
+    const result = await initRecipes();
+
+    switch (list) {
+    case "sorting-bar-ingredients":
+        filterList = result.ingredients;
+        break;
+    case "sorting-bar-appliances":
+        filterList = result.appliances;
+        break;
+    case "sorting-bar-ustensils":
+        filterList = result.ustensils;
+        break;
+    default:
+        break;
+    }
+    const itemsArray = filterList;
+
+    for (let i = 0; i < itemsArray.length; i++) {
+        if (itemsArray[i].toLowerCase().includes(search.toLowerCase())) {
+            filterItemsMap.set(itemsArray[i].id, itemsArray[i]);
+            filterItems.push(itemsArray[i]);
+        }
+    }
+
+    return filterItems;
+};
+
+export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesBySearch, getFilterListItemsBySearch };

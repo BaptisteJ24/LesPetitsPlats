@@ -1,4 +1,5 @@
-import { displayFilterList } from "../views/display/filter-list";
+import { displayFilterList, displayFilterListBySearch } from "../views/display/filter-list";
+import { displayNewTag } from "../views/display/tags";
 
 const sortingBarArray = Array.from(document.querySelectorAll(".sorting-bar"));
 const sortingBarObj = {};
@@ -20,8 +21,16 @@ sortingBarArray.forEach((sortingBar) => {
 const sortingBarEvent = () => {
     sortingBarArray.forEach((sortingBar) => {
         sortingBar.addEventListener("click", displayFilterList);
+        sortingBarObj[sortingBar.id].searchInput.addEventListener("keyup", displayFilterListBySearch);
     });
 };
 
-export { sortingBarEvent, sortingBarObj };
+const sortingBarItemsEvent = (filter) => {
+    let sortingBarItemsDOM = Array.from(filter.querySelectorAll(".sorting-bar__item"));
+    sortingBarItemsDOM.forEach((item) => {
+        item.addEventListener("click", displayNewTag);
+    });
+};
+
+export { sortingBarEvent, sortingBarItemsEvent, sortingBarObj };
 
