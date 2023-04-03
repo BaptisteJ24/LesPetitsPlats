@@ -7,7 +7,6 @@ let ustensilsArray = [];
 let filterRecipes = [];
 let filterRecipesMap = new Map();
 let filterItems = [];
-let filterItemsMap = new Map();
 
 /**
  * @description Récupère les recettes depuis le fichier JSON.
@@ -116,7 +115,6 @@ const getFilterListItemsBySearch = async (search, list) => {
 
     for (let i = 0; i < itemsArray.length; i++) {
         if (itemsArray[i].toLowerCase().includes(search.toLowerCase())) {
-            filterItemsMap.set(itemsArray[i].id, itemsArray[i]);
             filterItems.push(itemsArray[i]);
         }
     }
