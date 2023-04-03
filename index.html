@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-    <link href="./css/prefixed/style.css" rel="stylesheet" type="text/css">
+    <link href="./css/style.css" rel="stylesheet" type="text/css">
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="./assets/favicon.png">
 
@@ -23,7 +23,7 @@
     <main id="main">
         <div class="container search-bar__container">
             <input type="search" id="search-bar" class="search-bar" placeholder="Rechercher une recette">
-            <label for="search-bar" aria-label="Rechercher uen recette">
+            <label for="search-bar" aria-label="Rechercher une recette">
                 <span class="fa-solid fa-magnifying-glass fa-lg search-bar__icon" aria-hidden="true"></span>
             </label>
         </div>
@@ -82,6 +82,10 @@
         </div>
         <section class="recipe__section">
             <h2 class="sr-only">Recettes</h2>
+            <div class="search-bar__number-of-recipes hidden" aria-label="Number of recipes find by search">
+                <i class="fas fa-circle-info" aria-hidden="true"></i>
+                <span class="search-bar__number-of-recipes__text">Nombre de recettes trouvées par la recherche.</span> 
+            </div>
             <ul class="recipe__list"></ul>
         </section>
     </main>

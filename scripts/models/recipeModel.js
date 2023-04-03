@@ -1,4 +1,4 @@
-import { setAttributes } from "../../utils/utils.js";
+import { setAttributes } from "../utils/helpers.js";
 
 const recipeFactory = (recipe) => {
     try {

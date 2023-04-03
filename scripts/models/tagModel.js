@@ -2,13 +2,13 @@ const getTagDOM = (tag, type) => {
     const tagLine = document.createElement("li");
     tagLine.setAttribute("class", "tag-list__item__container");
     switch (type) {
-    case "ingredient":
+    case "ingredients-list":
         tagLine.classList.add("tag-list__item__container--blue");
         break;
-    case "appliance":
+    case "appliances-list":
         tagLine.classList.add("tag-list__item__container--green");
         break;
-    case "ustensil":
+    case "ustensils-list":
         tagLine.classList.add("tag-list__item__container--orange");
         break;
     default:
