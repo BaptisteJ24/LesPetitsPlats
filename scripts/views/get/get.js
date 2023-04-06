@@ -7,6 +7,11 @@ let ustensilsArray = [];
 let filterRecipes = [];
 let filterRecipesMap = new Map();
 let filterItems = [];
+let currentSearch = {
+    searchBar: "",
+    tags: []
+};
+let currentRecipes = [];
 
 /**
  * @description Récupère les recettes depuis le fichier JSON.
@@ -68,25 +73,87 @@ const getAllUstensils = async (recipes) => {
     return ustensilsArray;
 };
 
-const getRecipesBySearch = async (search) => {
-    filterRecipes = [];
-    filterRecipesMap = new Map();
-    const allRecipesArray = await getAllRecipes();
+/**
+ * description Récupère les recettes en fonction de la recherche ou du tag.
+ * @param {object} search
+ * @param {object} recipes
+ */
+const getRecipesBySearchBarAndTags = async (search, recipes) => {
+    filterRecipes = []; // mes recettes filtrées
+    filterRecipesMap = new Map(); // la map des recettes filtrées pour éviter les doublons.
 
-    for (let i = 0; i < allRecipesArray.length; i++) {
-        if (allRecipesArray[i].name.toLowerCase().includes(search.toLowerCase()) || allRecipesArray[i].description.toLowerCase().includes(search.toLowerCase())) {
-            filterRecipes.push(allRecipesArray[i]);
-            filterRecipesMap.set(allRecipesArray[i].id, allRecipesArray[i]);
-        }
-        for (let j = 0; j < allRecipesArray[i].ingredients.length; j++) {
-            if (allRecipesArray[i].ingredients[j].ingredient.toLowerCase().includes(search.toLowerCase())) {
-                if (!filterRecipesMap.has(allRecipesArray[i].id)) {
-                    console.log("map", filterRecipesMap);
-                    filterRecipes.push(allRecipesArray[i]);
-                    filterRecipesMap.set(allRecipesArray[i].id, allRecipesArray[i]);
+    if (search.searchBar) {
+        for (let i = 0; i < recipes.length; i++) {
+            if (recipes[i].name.toLowerCase().includes(search.searchBar.value.toLowerCase()) || recipes[i].description.toLowerCase().includes(search.searchBar.value.toLowerCase())) {
+                if (!filterRecipesMap.has(recipes[i].id)) {
+                    filterRecipes.push(recipes[i]);
+                    filterRecipesMap.set(recipes[i].id, recipes[i]);
+                }
+            }
+            for (let j = 0; j < recipes[i].ingredients.length; j++) {
+                if (recipes[i].ingredients[j].ingredient.toLowerCase().includes(search.searchBar.value.toLowerCase())) {
+                    if (!filterRecipesMap.has(recipes[i].id)) {
+                        filterRecipes.push(recipes[i]);
+                        filterRecipesMap.set(recipes[i].id, recipes[i]);
+                    }
                 }
             }
         }
+
+        currentRecipes = filterRecipes;
+        recipes = filterRecipes;
+    }
+
+    if (search.tags.length > 0) {
+        console.log("search", search);
+        console.log("recipes", recipes);
+        filterRecipes = [];
+        filterRecipesMap = new Map();
+
+        for (let i = 0; i < search.tags.length; i++) {
+            for (let j = 0; j < recipes.length; j++) {
+                switch (search.tags[i].type) {
+                    case "ingredient":
+                        for (let k = 0; k < recipes[j].ingredients.length; k++) {
+                            if (recipes[j].ingredients[k].ingredient.toLowerCase().includes(search.tags[i].value.toLowerCase())) {
+                                if (!filterRecipesMap.has(recipes[j].id)) {
+                                    filterRecipes.push(recipes[j]);
+                                    filterRecipesMap.set(recipes[j].id, recipes[j]);
+                                }
+                            }
+                        }
+                        setTimeout(() => {
+                            recipes = filterRecipes;
+                            console.log("filterRecipes", filterRecipes)
+                        }, 1000)
+
+                        break;
+                    case "appliance":
+                        if (recipes[j].appliance.toLowerCase().includes(search.tags[i].value.toLowerCase())) {
+                            if (!filterRecipesMap.has(recipes[j].id)) {
+                                filterRecipes.push(recipes[j]);
+                                filterRecipesMap.set(recipes[j].id, recipes[j]);
+                            }
+                        }
+                        break;
+                    case "ustensil":
+                        for (let k = 0; k < recipes[j].ustensils.length; k++) {
+                            if (recipes[j].ustensils[k].toLowerCase().includes(search.tags[i].value.toLowerCase())) {
+                                if (!filterRecipesMap.has(recipes[j].id)) {
+                                    filterRecipes.push(recipes[j]);
+                                    filterRecipesMap.set(recipes[j].id, recipes[j]);
+                                }
+                            }
+                        }
+                        recipes = filterRecipes;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+        currentRecipes = filterRecipes;
     }
 
     return filterRecipes;
@@ -94,22 +161,21 @@ const getRecipesBySearch = async (search) => {
 
 const getFilterListItemsBySearch = async (search, list) => {
     filterItems = [];
-    filterItemsMap = new Map();
     let filterList;
     const result = await initRecipes();
 
     switch (list) {
-    case "sorting-bar-ingredients":
-        filterList = result.ingredients;
-        break;
-    case "sorting-bar-appliances":
-        filterList = result.appliances;
-        break;
-    case "sorting-bar-ustensils":
-        filterList = result.ustensils;
-        break;
-    default:
-        break;
+        case "sorting-bar-ingredients":
+            filterList = result.ingredients;
+            break;
+        case "sorting-bar-appliances":
+            filterList = result.appliances;
+            break;
+        case "sorting-bar-ustensils":
+            filterList = result.ustensils;
+            break;
+        default:
+            break;
     }
     const itemsArray = filterList;
 
@@ -122,4 +188,4 @@ const getFilterListItemsBySearch = async (search, list) => {
     return filterItems;
 };
 
-export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesBySearch, getFilterListItemsBySearch };
+export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesBySearchBarAndTags, getFilterListItemsBySearch, currentSearch, currentRecipes };

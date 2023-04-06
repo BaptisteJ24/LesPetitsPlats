@@ -8,7 +8,7 @@ let currentList = null; /* stocke la liste actuellement déroulée */
 const displayItemsInFilterList = (list, items) => {
     list.innerHTML = "";
     items.forEach((item) => {
-        const itemDOM = getFilterListItemDOM(item);
+        const itemDOM = getFilterListItemDOM(item, list);
         list.appendChild(itemDOM);
     });
     sortingBarItemsEvent(list);
