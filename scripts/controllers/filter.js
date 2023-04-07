@@ -1,6 +1,6 @@
 import { displayFilterList, displayFilterListBySearch } from "../views/display/filter-list";
 import { displayNewTag } from "../views/display/tags";
-import { displayRecipesBySearchAndTags } from "../views/display/recipes";
+import { displayRecipesByQuery } from "../views/display/recipes";
 
 const sortingBarArray = Array.from(document.querySelectorAll(".sorting-bar"));
 const sortingBarObj = {};
@@ -30,7 +30,7 @@ const sortingBarItemsEvent = (filter) => {
     let sortingBarItemsDOM = Array.from(filter.querySelectorAll(".sorting-bar__item"));
     sortingBarItemsDOM.forEach((item) => {
         item.addEventListener("click", displayNewTag);
-        item.addEventListener("click", displayRecipesBySearchAndTags);
+        item.addEventListener("click", displayRecipesByQuery);
     });
 };
 
