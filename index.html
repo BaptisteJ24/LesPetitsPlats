@@ -22,7 +22,7 @@
     </header>
     <main id="main">
         <div class="container search-bar__container">
-            <input type="search" id="search-bar" class="search-bar" placeholder="Rechercher une recette">
+            <input type="search" id="search-bar" class="search-bar" placeholder="Rechercher une recette" data-type="search-bar">
             <label for="search-bar" aria-label="Rechercher une recette">
                 <span class="fa-solid fa-magnifying-glass fa-lg search-bar__icon" aria-hidden="true"></span>
             </label>
@@ -34,7 +34,7 @@
             <div id="sorting-bar-ingredients" class="sorting-bar sorting-bar--blue" role="listbox" aria-expanded="false" tabindex="0">
                 <div class="sorting-bar__search-container">
                     <label for="ingredients" class="sorting-bar__label">
-                        <span class="sorting-bar__label-title">Ingrédients</span> <!-- ajouter class sr-only quand liste ouverte -->
+                        <span class="sorting-bar__label-title">Ingrédients</span>
                         <input type="search" id="ingredients" class="sorting-bar__search hidden" placeholder="Rechercher un ingrédient">
                         <span class="fa-solid fa-chevron-down sorting-bar__icon" aria-hidden="true"></span>
                     </label>
