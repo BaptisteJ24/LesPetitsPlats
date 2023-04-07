@@ -5,7 +5,7 @@ let ingredientsArray = [];
 let appliancesArray = [];
 let ustensilsArray = [];
 let filterItems = [];
-
+let oldRecipesArray = [];
 /**
  * @description Récupère les recettes depuis le fichier JSON.
  * @returns 
@@ -66,51 +66,19 @@ const getAllUstensils = async (recipes) => {
     return ustensilsArray;
 };
 
-const getFilterListItemsBySearch = async (search, list) => {
-    filterItems = [];
-    let filterList;
-    const result = await initRecipes();
-
-    switch (list) {
-        case "sorting-bar-ingredients":
-            filterList = result.ingredients;
-            break;
-        case "sorting-bar-appliances":
-            filterList = result.appliances;
-            break;
-        case "sorting-bar-ustensils":
-            filterList = result.ustensils;
-            break;
-        default:
-            break;
-    }
-    const itemsArray = filterList;
-
-    for (let i = 0; i < itemsArray.length; i++) {
-        if (itemsArray[i].toLowerCase().includes(search.toLowerCase())) {
-            filterItems.push(itemsArray[i]);
-        }
-    }
-
-    return filterItems;
-};
-
-
-let oldRecipesArray = []; // tableau contenant les recettes précédentes.
-
 const getRecipesByQuery = async (queryArray, recipesArray, method) => {
     let queryFilter = [];
     switch (method) {
         case "last-element":
             queryFilter = [queryArray[queryArray.length - 1]];
             break;
-        case "all-elements":
-            queryFilter = queryArray;
+            case "all-elements":
+                queryFilter = queryArray;
             break;
-        default:
+            default:
             break;
     }
-
+    
     for (let i = 0; i < queryFilter.length; i++) {
         let filterRecipes = []; // mes recettes filtrées
         const filterRecipesMap = new Map();
@@ -132,7 +100,6 @@ const getRecipesByQuery = async (queryArray, recipesArray, method) => {
                 }
                 break;
             case "ingredient":
-                console.log("recipesArray : ", recipesArray);
                 for (let j = 0; j < recipesArray.length; j++) {
                     for (let k = 0; k < recipesArray[j].ingredients.length; k++) {
                         if (recipesArray[j].ingredients[k].ingredient.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
@@ -154,8 +121,8 @@ const getRecipesByQuery = async (queryArray, recipesArray, method) => {
                     }
                 }
                 break;
-            case "ustensil":
-                for (let j = 0; j < recipesArray.length; j++) {
+                case "ustensil":
+                    for (let j = 0; j < recipesArray.length; j++) {
                     for (let k = 0; k < recipesArray[j].ustensils.length; k++) {
                         if (recipesArray[j].ustensils[k].toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
                             if (!filterRecipesMap.has(recipesArray[j].id)) {
@@ -166,8 +133,8 @@ const getRecipesByQuery = async (queryArray, recipesArray, method) => {
                     }
                 }
                 break;
-            default:
-                break;
+                default:
+                    break;
         }
         recipesArray = filterRecipes;
     }
@@ -175,13 +142,101 @@ const getRecipesByQuery = async (queryArray, recipesArray, method) => {
     return recipesArray;
 };
 
+const getFilterListItemsBySearch = async (search, list) => {
+    filterItems = [];
 
+    for (let i = 0; i < list.length; i++) {
+        if (list[i].toLowerCase().includes(search.toLowerCase())) {
+            filterItems.push(list[i]);
+        }
+    }
 
+    return filterItems;
+};
 
+const getIngredientsInFilterRecipes = async (recipes, query) => {
+    const ingredientsMap = new Map();
+    const ingredientsArray = [];
+    const ingredientsTags = [];
 
+    for (let i = 0; i < query.length; i++) {
+        if (query[i].type === "ingredient") {
+            ingredientsTags.push(query[i].value.toLowerCase().trim());
+        }
+    }
 
-export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesByQuery, getFilterListItemsBySearch, oldRecipesArray };
+    for (let i = 0; i < ingredientsTags.length; i++) {
+        ingredientsMap.set(ingredientsTags[i], ingredientsTags[i]);
+    }
+    console.log("ingredientsMap", ingredientsMap);
 
+    recipes.forEach((recipe) => {
+        recipe.ingredients.forEach((ingredient) => {
+            const { ingredient: singularIngredient } = ingredient;
+            const formattedIngredient = singularIngredient.toLowerCase().trim();
+            if (!ingredientsMap.has(formattedIngredient)) {
+                ingredientsMap.set(formattedIngredient, formattedIngredient);
+                ingredientsArray.push(formattedIngredient.charAt(0).toUpperCase() + formattedIngredient.slice(1));
+            }
+        });
+    });
+    console.log("ingredientsMap", ingredientsMap);
+    console.log("ingredientsArray", ingredientsArray);
 
+    return ingredientsArray;
+};
 
-let recipesFilterByQuery = [];
+const getAppliancesInFilterRecipes = async (recipes, query) => {
+    const appliancesMap = new Map();
+    const appliancesArray = [];
+    const appliancesTags = [];
+
+    for (let i = 0; i < query.length; i++) {
+        if (query[i].type === "appliance") {
+            appliancesTags.push(query[i].value.toLowerCase().trim());
+        }
+    }
+
+    for (let i = 0; i < appliancesTags.length; i++) {
+        appliancesMap.set(appliancesTags[i], appliancesTags[i]);
+    }
+
+    recipes.forEach((recipe) => {
+        const { appliance: singularAppliance } = recipe;
+        const formattedAppliance = singularAppliance.toLowerCase().trim();
+        if (!appliancesMap.has(formattedAppliance)) {
+            appliancesMap.set(formattedAppliance, formattedAppliance);
+            appliancesArray.push(formattedAppliance.charAt(0).toUpperCase() + formattedAppliance.slice(1));
+        }
+    });
+    return appliancesArray;
+};
+
+const getUstensilsInFilterRecipes = async (recipes, query) => {
+    const ustensilsMap = new Map();
+    const ustensilsArray = [];
+    const ustensilsTags = [];
+
+    for (let i = 0; i < query.length; i++) {
+        if (query[i].type === "ustensil") {
+            ustensilsTags.push(query[i].value.toLowerCase().trim());
+        }
+    }
+
+    for (let i = 0; i < ustensilsTags.length; i++) {
+        ustensilsMap.set(ustensilsTags[i], ustensilsTags[i]);
+    }
+
+    recipes.forEach((recipe) => {
+        recipe.ustensils.forEach((ustensil) => {
+            const formattedUstensil = ustensil.toLowerCase().trim();
+            if (!ustensilsMap.has(formattedUstensil)) {
+                ustensilsMap.set(formattedUstensil, formattedUstensil);
+                ustensilsArray.push(formattedUstensil.charAt(0).toUpperCase() + formattedUstensil.slice(1));
+            }
+        });
+    });
+    return ustensilsArray;
+};
+
+export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesByQuery, getFilterListItemsBySearch, oldRecipesArray, getIngredientsInFilterRecipes, getAppliancesInFilterRecipes, getUstensilsInFilterRecipes };
