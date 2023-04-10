@@ -4,20 +4,20 @@ const getTagDOM = (tag, type) => {
     tagLine.setAttribute("data-event", "removing");
 
     switch (type) {
-        case "ingredients-list":
-            tagLine.classList.add("tag-list__item__container--blue")
-            tagLine.setAttribute("data-type", "ingredient");
-            break;
-        case "appliances-list":
-            tagLine.classList.add("tag-list__item__container--green");
-            tagLine.setAttribute("data-type", "appliance");
-            break;
-        case "ustensils-list":
-            tagLine.classList.add("tag-list__item__container--orange");
-            tagLine.setAttribute("data-type", "ustensil");
-            break;
-        default:
-            break;
+    case "ingredients-list":
+        tagLine.classList.add("tag-list__item__container--blue");
+        tagLine.setAttribute("data-type", "ingredient");
+        break;
+    case "appliances-list":
+        tagLine.classList.add("tag-list__item__container--green");
+        tagLine.setAttribute("data-type", "appliance");
+        break;
+    case "ustensils-list":
+        tagLine.classList.add("tag-list__item__container--orange");
+        tagLine.setAttribute("data-type", "ustensil");
+        break;
+    default:
+        break;
     }
 
     const tagText = document.createElement("span");

@@ -1,5 +1,4 @@
 import { getDataByProperty } from "../../utils/helpers.js";
-import { initRecipes } from "../init.js";
 
 let ingredientsArray = [];
 let appliancesArray = [];
@@ -69,72 +68,72 @@ const getAllUstensils = async (recipes) => {
 const getRecipesByQuery = async (queryArray, recipesArray, method) => {
     let queryFilter = [];
     switch (method) {
-        case "last-element":
-            queryFilter = [queryArray[queryArray.length - 1]];
-            break;
-            case "all-elements":
-                queryFilter = queryArray;
-            break;
-            default:
-            break;
+    case "last-element":
+        queryFilter = [queryArray[queryArray.length - 1]];
+        break;
+    case "all-elements":
+        queryFilter = queryArray;
+        break;
+    default:
+        break;
     }
     
     for (let i = 0; i < queryFilter.length; i++) {
         let filterRecipes = []; // mes recettes filtrées
         const filterRecipesMap = new Map();
         switch (queryFilter[i].type) {
-            case "search-bar":
-                for (let j = 0; j < recipesArray.length; j++) {
-                    if (recipesArray[j].name.toLowerCase().includes(queryFilter[i].value.toLowerCase()) || recipesArray[j].description.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                        filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                        filterRecipes.push(recipesArray[j]);
-                    }
-                    for (let k = 0; k < recipesArray[j].ingredients.length; k++) {
-                        if (recipesArray[j].ingredients[k].ingredient.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                            if (!filterRecipesMap.has(recipesArray[j].id)) {
-                                filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                                filterRecipes.push(recipesArray[j]);
-                            }
-                        }
-                    }
+        case "search-bar":
+            for (let j = 0; j < recipesArray.length; j++) {
+                if (recipesArray[j].name.toLowerCase().includes(queryFilter[i].value.toLowerCase()) || recipesArray[j].description.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
+                    filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
+                    filterRecipes.push(recipesArray[j]);
                 }
-                break;
-            case "ingredient":
-                for (let j = 0; j < recipesArray.length; j++) {
-                    for (let k = 0; k < recipesArray[j].ingredients.length; k++) {
-                        if (recipesArray[j].ingredients[k].ingredient.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                            if (!filterRecipesMap.has(recipesArray[j].id)) {
-                                filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                                filterRecipes.push(recipesArray[j]);
-                            }
-                        }
-                    }
-                }
-                break;
-            case "appliance":
-                for (let j = 0; j < recipesArray.length; j++) {
-                    if (recipesArray[j].appliance.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
+                for (let k = 0; k < recipesArray[j].ingredients.length; k++) {
+                    if (recipesArray[j].ingredients[k].ingredient.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
                         if (!filterRecipesMap.has(recipesArray[j].id)) {
                             filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
                             filterRecipes.push(recipesArray[j]);
                         }
                     }
                 }
-                break;
-                case "ustensil":
-                    for (let j = 0; j < recipesArray.length; j++) {
-                    for (let k = 0; k < recipesArray[j].ustensils.length; k++) {
-                        if (recipesArray[j].ustensils[k].toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                            if (!filterRecipesMap.has(recipesArray[j].id)) {
-                                filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                                filterRecipes.push(recipesArray[j]);
-                            }
+            }
+            break;
+        case "ingredient":
+            for (let j = 0; j < recipesArray.length; j++) {
+                for (let k = 0; k < recipesArray[j].ingredients.length; k++) {
+                    if (recipesArray[j].ingredients[k].ingredient.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
+                        if (!filterRecipesMap.has(recipesArray[j].id)) {
+                            filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
+                            filterRecipes.push(recipesArray[j]);
                         }
                     }
                 }
-                break;
-                default:
-                    break;
+            }
+            break;
+        case "appliance":
+            for (let j = 0; j < recipesArray.length; j++) {
+                if (recipesArray[j].appliance.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
+                    if (!filterRecipesMap.has(recipesArray[j].id)) {
+                        filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
+                        filterRecipes.push(recipesArray[j]);
+                    }
+                }
+            }
+            break;
+        case "ustensil":
+            for (let j = 0; j < recipesArray.length; j++) {
+                for (let k = 0; k < recipesArray[j].ustensils.length; k++) {
+                    if (recipesArray[j].ustensils[k].toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
+                        if (!filterRecipesMap.has(recipesArray[j].id)) {
+                            filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
+                            filterRecipes.push(recipesArray[j]);
+                        }
+                    }
+                }
+            }
+            break;
+        default:
+            break;
         }
         recipesArray = filterRecipes;
     }
@@ -168,7 +167,6 @@ const getIngredientsInFilterRecipes = async (recipes, query) => {
     for (let i = 0; i < ingredientsTags.length; i++) {
         ingredientsMap.set(ingredientsTags[i], ingredientsTags[i]);
     }
-    console.log("ingredientsMap", ingredientsMap);
 
     recipes.forEach((recipe) => {
         recipe.ingredients.forEach((ingredient) => {
@@ -180,8 +178,6 @@ const getIngredientsInFilterRecipes = async (recipes, query) => {
             }
         });
     });
-    console.log("ingredientsMap", ingredientsMap);
-    console.log("ingredientsArray", ingredientsArray);
 
     return ingredientsArray;
 };
