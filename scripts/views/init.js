@@ -1,14 +1,17 @@
-import { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils } from "./get/get.js";
+import { getAllRecipes, getIngredientsFromRecipes, getAppliancesFromRecipes, getUstensilsFromRecipes } from "./get/get.js";
 import { displayRecipes } from "./display/recipes.js";
 import { displayItemsInFilterList } from "./display/filter-list.js";
 import { sortingBarEvent } from "../controllers/filter.js";
 import { sortingBarObj } from "../controllers/filter.js";
 
+/**
+ * @description Initialise les recettes et les filtres, puis les affiche dans le DOM.
+ */
 const initRecipes = async () => {
     const recipes = await getAllRecipes();
-    const ingredients = await getAllIngredients(recipes);
-    const appliances = await getAllAppliances(recipes);
-    const ustensils = await getAllUstensils(recipes);
+    const ingredients = await getIngredientsFromRecipes(recipes);
+    const appliances = await getAppliancesFromRecipes(recipes);
+    const ustensils = await getUstensilsFromRecipes(recipes);
 
     displayRecipes(recipes);
     
@@ -31,8 +34,6 @@ const initRecipes = async () => {
     });
     
     sortingBarEvent();
-
-    return { recipes, ingredients, appliances, ustensils };
 };
 
 export { initRecipes };

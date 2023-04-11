@@ -1,14 +1,17 @@
 import { getDataByProperty } from "../../utils/helpers.js";
 
-let ingredientsArray = [];
-let appliancesArray = [];
-let ustensilsArray = [];
-let filterItems = [];
-let oldRecipesArray = [];
+// Variables
+let ingredientsArray = []; // Tableau contenant les ingrédients.
+let appliancesArray = []; // Tableau contenant les appareils.
+let ustensilsArray = []; // Tableau contenant les ustensils.
+let filterItems = []; // Tableau contenant les éléments filtrés.
+let oldRecipesArray = []; // Tableau contenant les recettes avant un nouveau filtrage.
+
+// Get Functions
 
 /**
- * @description Récupère les recettes depuis le fichier JSON.
- * @returns 
+ * description : Récupère les recettes depuis le fichier JSON.
+ * @return {Promise<Object[]>} - Promesse contenant un tableau de recettes.
  */
 const getAllRecipes = async () => {
     try {
@@ -20,24 +23,43 @@ const getAllRecipes = async () => {
     }
 };
 
-const getAllIngredients = async (recipes) => {
+/**
+ * description : Récupère les ingrédients depuis un tableau de recettes.
+ * @param {Object[]} recipes - Tableau contenant les recettes.
+ * @returns {Object[]} Tableau contenant les ingrédients.
+ */
+const getIngredientsFromRecipes = async (recipes) => {
     ingredientsArray = [];
     const ingredientsMap = new Map();
-    recipes.forEach((recipe) => {
-        recipe.ingredients.forEach((ingredient) => {
+    ingredientsArray = recipes.reduce((acc, recipe) => {
+        recipe.ingredients.forEach(ingredient => {
             const { ingredient: ingredientName } = ingredient;
             const formattedIngredient = ingredientName.toLowerCase().trim();
             const singularIngredient = formattedIngredient.replace(/s$/, "");
             if (!ingredientsMap.has(singularIngredient)) {
                 ingredientsMap.set(singularIngredient, formattedIngredient);
-                ingredientsArray.push(formattedIngredient.charAt(0).toUpperCase() + formattedIngredient.slice(1));
+                acc.push(formattedIngredient);
+            }
+            if (ingredientsMap.has(formattedIngredient) && ingredientsMap.get(formattedIngredient) !== singularIngredient) {
+                const index = acc.indexOf(ingredientsMap.get(formattedIngredient));
+                acc.splice(index, 1, singularIngredient);
+                ingredientsMap.set(formattedIngredient, singularIngredient);
             }
         });
-    });
+        return acc;
+    }, []);
+
+    ingredientsArray = ingredientsArray.map(ingredient => ingredient.charAt(0).toUpperCase() + ingredient.slice(1));
+
     return ingredientsArray;
 };
 
-const getAllAppliances = async (recipes) => {
+/**
+ * description : Récupère les appareils depuis un tableau de recettes.
+ * @param {Object[]} recipes - Tableau contenant les recettes.
+ * @returns {Object[]} Tableau contenant les appareils.
+ */
+const getAppliancesFromRecipes = async (recipes) => {
     appliancesArray = [];
     appliancesArray = recipes.reduce((acc, recipe) => {
         const { appliance } = recipe;
@@ -51,7 +73,12 @@ const getAllAppliances = async (recipes) => {
     return appliancesArray;
 };
 
-const getAllUstensils = async (recipes) => {
+/**
+ * description : Récupère les ustensiles depuis un tableau de recettes.
+ * @param {Object[]} recipes - Tableau contenant les recettes.
+ * @returns {Object[]} Tableau contenant les ustensiles.
+ */
+const getUstensilsFromRecipes = async (recipes) => {
     ustensilsArray = [];
     ustensilsArray = recipes.reduce((acc, recipe) => {
         recipe.ustensils.forEach((ustensil) => {
@@ -66,173 +93,144 @@ const getAllUstensils = async (recipes) => {
     return ustensilsArray;
 };
 
+/**
+ * description : Récupère les recettes depuis un tableau de recettes, en fonction d'une recherche et/ou de filtres.
+ * @param {Object[]} queryArray - Tableau contenant les filtres et la recherche.
+ * @param {Object[]} recipesArray - Tableau contenant les recettes.
+ * @param {string} method - Méthode de filtrage. "last-element" pour le dernier élément du tableau, "all-elements" pour tous les éléments du tableau.
+ * @returns {Promise<Object[]>} Tableau contenant les recettes filtrées.
+ */
 const getRecipesByQuery = async (queryArray, recipesArray, method) => {
     let queryFilter = [];
     switch (method) {
-    case "last-element":
-        queryFilter = [queryArray[queryArray.length - 1]];
-        break;
-    case "all-elements":
-        queryFilter = queryArray;
-        break;
-    default:
-        break;
-    }
-    
-    for (let i = 0; i < queryFilter.length; i++) {
-        let filterRecipes = []; // mes recettes filtrées
-        const filterRecipesMap = new Map();
-        switch (queryFilter[i].type) {
-        case "search-bar":
-            for (let j = 0; j < recipesArray.length; j++) {
-                if (recipesArray[j].name.toLowerCase().includes(queryFilter[i].value.toLowerCase()) || recipesArray[j].description.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                    filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                    filterRecipes.push(recipesArray[j]);
-                }
-                for (let k = 0; k < recipesArray[j].ingredients.length; k++) {
-                    if (recipesArray[j].ingredients[k].ingredient.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                        if (!filterRecipesMap.has(recipesArray[j].id)) {
-                            filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                            filterRecipes.push(recipesArray[j]);
-                        }
-                    }
-                }
-            }
+        case "last-element":
+            queryFilter = [queryArray[queryArray.length - 1]];
             break;
-        case "ingredient":
-            for (let j = 0; j < recipesArray.length; j++) {
-                for (let k = 0; k < recipesArray[j].ingredients.length; k++) {
-                    if (recipesArray[j].ingredients[k].ingredient.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                        if (!filterRecipesMap.has(recipesArray[j].id)) {
-                            filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                            filterRecipes.push(recipesArray[j]);
-                        }
-                    }
-                }
-            }
-            break;
-        case "appliance":
-            for (let j = 0; j < recipesArray.length; j++) {
-                if (recipesArray[j].appliance.toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                    if (!filterRecipesMap.has(recipesArray[j].id)) {
-                        filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                        filterRecipes.push(recipesArray[j]);
-                    }
-                }
-            }
-            break;
-        case "ustensil":
-            for (let j = 0; j < recipesArray.length; j++) {
-                for (let k = 0; k < recipesArray[j].ustensils.length; k++) {
-                    if (recipesArray[j].ustensils[k].toLowerCase().includes(queryFilter[i].value.toLowerCase())) {
-                        if (!filterRecipesMap.has(recipesArray[j].id)) {
-                            filterRecipesMap.set(recipesArray[j].id, recipesArray[j]);
-                            filterRecipes.push(recipesArray[j]);
-                        }
-                    }
-                }
-            }
+        case "all-elements":
+            queryFilter = queryArray;
             break;
         default:
             break;
-        }
-        recipesArray = filterRecipes;
     }
+
+    queryFilter.forEach(query => {
+        let filterRecipes = recipesArray.filter(recipe => {
+            switch (query.type) {
+                case "search-bar":
+                    return recipe.name.toLowerCase().includes(query.value.toLowerCase()) || recipe.description.toLowerCase().includes(query.value.toLowerCase()) || recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
+                case "ingredient":
+                    return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
+                case "appliance":
+                    return recipe.appliance.toLowerCase().includes(query.value.toLowerCase());
+                case "ustensil":
+                    return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(query.value.toLowerCase()));
+                default:
+                    break;
+            }
+        });
+        recipesArray = filterRecipes;
+    });
+
     oldRecipesArray = recipesArray;
     return recipesArray;
 };
 
+/**
+ * description : Récupère les éléments d'une liste, en fonction d'une recherche dans le filtre.
+ * @param {string} search - chaîne de caractères à rechercher dans le filtre.
+ * @param {Object[]} list - Tableau contenant les éléments de la liste du filtre.
+ * @returns {Object[]} Tableau contenant les éléments de la liste filtrés.
+ */
 const getFilterListItemsBySearch = async (search, list) => {
     filterItems = [];
-    for (let i = 0; i < list.length; i++) {
-        if (list[i].toLowerCase().includes(search.toLowerCase())) {
-            filterItems.push(list[i]);
-        }
-    }
-
+    filterItems = list.filter(item => item.toLowerCase().includes(search.toLowerCase()));
     return filterItems;
 };
 
+/**
+ * description : Récupère les ingrédients depuis un tableau de recettes, en fonction d'une recherche et/ou de filtres.
+ * @param {Object[]} recipes - Tableau contenant les recettes.
+ * @param {Object[]} query - Tableau contenant les filtres et la recherche.
+ * @returns {Object[]} Tableau contenant les ingrédients filtrés.
+ */
 const getIngredientsInFilterRecipes = async (recipes, query) => {
-    const ingredientsMap = new Map();
-    const ingredientsArray = [];
-    const ingredientsTags = [];
+    let ingredientsTags = [];
+    let ingredientsInFilterRecipes = [];
+    ingredientsTags = query.length > 0 ? query.filter(item => item.type === "ingredient") : [];
+    
+    ingredientsInFilterRecipes = await getIngredientsFromRecipes(recipes);
 
-    for (let i = 0; i < query.length; i++) {
-        if (query[i].type === "ingredient") {
-            ingredientsTags.push(query[i].value.toLowerCase().trim());
-        }
-    }
-
-    for (let i = 0; i < ingredientsTags.length; i++) {
-        ingredientsMap.set(ingredientsTags[i], ingredientsTags[i]);
-    }
-
-    recipes.forEach((recipe) => {
-        recipe.ingredients.forEach((ingredient) => {
-            const { ingredient: singularIngredient } = ingredient;
-            const formattedIngredient = singularIngredient.toLowerCase().trim();
-            if (!ingredientsMap.has(formattedIngredient)) {
-                ingredientsMap.set(formattedIngredient, formattedIngredient);
-                ingredientsArray.push(formattedIngredient.charAt(0).toUpperCase() + formattedIngredient.slice(1));
-            }
+    if (ingredientsTags.length > 0) {
+        ingredientsTags.forEach(tag => {
+            ingredientsInFilterRecipes = ingredientsInFilterRecipes.filter(ingredient => ingredient.toLowerCase().trim() !== tag.value.toLowerCase().trim());
         });
-    });
+    }
 
-    return ingredientsArray;
+    ingredientsInFilterRecipes = ingredientsInFilterRecipes.map(ingredient => ingredient.charAt(0).toUpperCase() + ingredient.slice(1));
+
+    return ingredientsInFilterRecipes;
 };
 
+/**
+ * description : Récupère les appareils depuis un tableau de recettes, en fonction d'une recherche et/ou de filtres.
+ * @param {Object[]} recipes - Tableau contenant les recettes.
+ * @param {Object[]} query - Tableau contenant les filtres et la recherche.
+ * @returns {Object[]} Tableau contenant les appareils filtrés.
+ */
 const getAppliancesInFilterRecipes = async (recipes, query) => {
-    const appliancesMap = new Map();
-    const appliancesArray = [];
-    const appliancesTags = [];
-
-    for (let i = 0; i < query.length; i++) {
-        if (query[i].type === "appliance") {
-            appliancesTags.push(query[i].value.toLowerCase().trim());
+    let appliancesTags = [];
+    let appliancesInFilterRecipes = [];
+    appliancesTags = query.length > 0 ? query.filter(item => item.type === "appliance") : [];
+    appliancesInFilterRecipes = recipes.reduce((acc, recipe) => {
+        const { appliance } = recipe;
+        const formattedAppliance = appliance.toLowerCase().trim();
+        if (!acc.some(item => item.toLowerCase().trim() === formattedAppliance)) {
+            acc.push(formattedAppliance);
         }
+        return acc;
+    }, []);
+
+    if (appliancesTags.length > 0) {
+        appliancesTags.forEach(tag => {
+            appliancesInFilterRecipes = appliancesInFilterRecipes.filter(appliance => appliance !== tag.value.toLowerCase().trim());
+        });
     }
 
-    for (let i = 0; i < appliancesTags.length; i++) {
-        appliancesMap.set(appliancesTags[i], appliancesTags[i]);
-    }
+    appliancesInFilterRecipes = appliancesInFilterRecipes.map(appliance => appliance.charAt(0).toUpperCase() + appliance.slice(1));
 
-    recipes.forEach((recipe) => {
-        const { appliance: singularAppliance } = recipe;
-        const formattedAppliance = singularAppliance.toLowerCase().trim();
-        if (!appliancesMap.has(formattedAppliance)) {
-            appliancesMap.set(formattedAppliance, formattedAppliance);
-            appliancesArray.push(formattedAppliance.charAt(0).toUpperCase() + formattedAppliance.slice(1));
-        }
-    });
-    return appliancesArray;
+    return appliancesInFilterRecipes;
 };
 
+/**
+ * description : Récupère les ustensiles depuis un tableau de recettes, en fonction d'une recherche et/ou de filtres.
+ * @param {Object[]} recipes - Tableau contenant les recettes.
+ * @param {Object[]} query - Tableau contenant les filtres et la recherche.
+ * @returns {Object[]} Tableau contenant les ustensiles filtrés.
+ */
 const getUstensilsInFilterRecipes = async (recipes, query) => {
-    const ustensilsMap = new Map();
-    const ustensilsArray = [];
-    const ustensilsTags = [];
-
-    for (let i = 0; i < query.length; i++) {
-        if (query[i].type === "ustensil") {
-            ustensilsTags.push(query[i].value.toLowerCase().trim());
-        }
-    }
-
-    for (let i = 0; i < ustensilsTags.length; i++) {
-        ustensilsMap.set(ustensilsTags[i], ustensilsTags[i]);
-    }
-
-    recipes.forEach((recipe) => {
-        recipe.ustensils.forEach((ustensil) => {
+    let ustensilsTags = [];
+    let ustensilsInFilterRecipes = [];
+    ustensilsTags = query.length > 0 ? query.filter(item => item.type === "ustensil") : [];
+    ustensilsInFilterRecipes = recipes.reduce((acc, recipe) => {
+        recipe.ustensils.forEach(ustensil => {
             const formattedUstensil = ustensil.toLowerCase().trim();
-            if (!ustensilsMap.has(formattedUstensil)) {
-                ustensilsMap.set(formattedUstensil, formattedUstensil);
-                ustensilsArray.push(formattedUstensil.charAt(0).toUpperCase() + formattedUstensil.slice(1));
+            if (!acc.some(item => item.toLowerCase().trim() === formattedUstensil)) {
+                acc.push(formattedUstensil);
             }
         });
-    });
-    return ustensilsArray;
+        return acc;
+    }, []);
+
+    if (ustensilsTags.length > 0) {
+        ustensilsTags.forEach(tag => {
+            ustensilsInFilterRecipes = ustensilsInFilterRecipes.filter(ustensil => ustensil !== tag.value.toLowerCase().trim());
+        });
+    }
+
+    ustensilsInFilterRecipes = ustensilsInFilterRecipes.map(ustensil => ustensil.charAt(0).toUpperCase() + ustensil.slice(1));
+
+    return ustensilsInFilterRecipes;
 };
 
-export { getAllRecipes, getAllIngredients, getAllAppliances, getAllUstensils, getRecipesByQuery, getFilterListItemsBySearch, oldRecipesArray, getIngredientsInFilterRecipes, getAppliancesInFilterRecipes, getUstensilsInFilterRecipes };
+
+export { getAllRecipes, getIngredientsFromRecipes, getAppliancesFromRecipes, getUstensilsFromRecipes, getRecipesByQuery, getFilterListItemsBySearch, oldRecipesArray, getIngredientsInFilterRecipes, getAppliancesInFilterRecipes, getUstensilsInFilterRecipes };
