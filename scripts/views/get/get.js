@@ -5,6 +5,7 @@ let appliancesArray = [];
 let ustensilsArray = [];
 let filterItems = [];
 let oldRecipesArray = [];
+
 /**
  * @description Récupère les recettes depuis le fichier JSON.
  * @returns 
@@ -143,7 +144,6 @@ const getRecipesByQuery = async (queryArray, recipesArray, method) => {
 
 const getFilterListItemsBySearch = async (search, list) => {
     filterItems = [];
-
     for (let i = 0; i < list.length; i++) {
         if (list[i].toLowerCase().includes(search.toLowerCase())) {
             filterItems.push(list[i]);
