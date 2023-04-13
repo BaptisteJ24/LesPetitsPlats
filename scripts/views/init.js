@@ -27,8 +27,6 @@ const initRecipes = async () => {
         case "sorting-bar-ustensils":
             items = ustensils;
             break;
-        default:
-            break;
         }
         displayItemsInFilterList(sortingBarObj[key].list, items);
     });

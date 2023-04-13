@@ -1,4 +1,5 @@
-import { getDataByProperty } from "../../utils/helpers.js";
+import { getDataByProperty, quickSort } from "../../utils/helpers.js";
+import { currentRecipes, currentQuery, currentListContainer } from "../display/filter-list.js";
 
 // Variables
 let ingredientsArray = []; // Tableau contenant les ingrédients.
@@ -26,7 +27,7 @@ const getAllRecipes = async () => {
 /**
  * description : Récupère les ingrédients depuis un tableau de recettes.
  * @param {Object[]} recipes - Tableau contenant les recettes.
- * @returns {Object[]} Tableau contenant les ingrédients.
+ * @returns {Promise<Object[]>} Tableau contenant les ingrédients.
  */
 const getIngredientsFromRecipes = async (recipes) => {
     ingredientsArray = [];
@@ -50,6 +51,7 @@ const getIngredientsFromRecipes = async (recipes) => {
     }, []);
 
     ingredientsArray = ingredientsArray.map(ingredient => ingredient.charAt(0).toUpperCase() + ingredient.slice(1));
+    ingredientsArray = quickSort(ingredientsArray);
 
     return ingredientsArray;
 };
@@ -57,7 +59,7 @@ const getIngredientsFromRecipes = async (recipes) => {
 /**
  * description : Récupère les appareils depuis un tableau de recettes.
  * @param {Object[]} recipes - Tableau contenant les recettes.
- * @returns {Object[]} Tableau contenant les appareils.
+ * @returns {Promise<Object[]>} Tableau contenant les appareils.
  */
 const getAppliancesFromRecipes = async (recipes) => {
     appliancesArray = [];
@@ -70,13 +72,14 @@ const getAppliancesFromRecipes = async (recipes) => {
         return acc;
     }, []);
 
+    appliancesArray = quickSort(appliancesArray);
     return appliancesArray;
 };
 
 /**
  * description : Récupère les ustensiles depuis un tableau de recettes.
  * @param {Object[]} recipes - Tableau contenant les recettes.
- * @returns {Object[]} Tableau contenant les ustensiles.
+ * @returns {Promise<Object[]>} Tableau contenant les ustensiles.
  */
 const getUstensilsFromRecipes = async (recipes) => {
     ustensilsArray = [];
@@ -89,7 +92,7 @@ const getUstensilsFromRecipes = async (recipes) => {
         });
         return acc;
     }, []);
-
+    ustensilsArray = quickSort(ustensilsArray);
     return ustensilsArray;
 };
 
@@ -103,29 +106,29 @@ const getUstensilsFromRecipes = async (recipes) => {
 const getRecipesByQuery = async (queryArray, recipesArray, method) => {
     let queryFilter = [];
     switch (method) {
-        case "last-element":
-            queryFilter = [queryArray[queryArray.length - 1]];
-            break;
-        case "all-elements":
-            queryFilter = queryArray;
-            break;
-        default:
-            break;
+    case "last-element":
+        queryFilter = [queryArray[queryArray.length - 1]];
+        break;
+    case "all-elements":
+        queryFilter = queryArray;
+        break;
+    default:
+        break;
     }
 
     queryFilter.forEach(query => {
         let filterRecipes = recipesArray.filter(recipe => {
             switch (query.type) {
-                case "search-bar":
-                    return recipe.name.toLowerCase().includes(query.value.toLowerCase()) || recipe.description.toLowerCase().includes(query.value.toLowerCase()) || recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
-                case "ingredient":
-                    return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
-                case "appliance":
-                    return recipe.appliance.toLowerCase().includes(query.value.toLowerCase());
-                case "ustensil":
-                    return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(query.value.toLowerCase()));
-                default:
-                    break;
+            case "search-bar":
+                return recipe.name.toLowerCase().includes(query.value.toLowerCase()) || recipe.description.toLowerCase().includes(query.value.toLowerCase()) || recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
+            case "ingredient":
+                return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
+            case "appliance":
+                return recipe.appliance.toLowerCase().includes(query.value.toLowerCase());
+            case "ustensil":
+                return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(query.value.toLowerCase()));
+            default:
+                break;
             }
         });
         recipesArray = filterRecipes;
@@ -139,7 +142,7 @@ const getRecipesByQuery = async (queryArray, recipesArray, method) => {
  * description : Récupère les éléments d'une liste, en fonction d'une recherche dans le filtre.
  * @param {string} search - chaîne de caractères à rechercher dans le filtre.
  * @param {Object[]} list - Tableau contenant les éléments de la liste du filtre.
- * @returns {Object[]} Tableau contenant les éléments de la liste filtrés.
+ * @returns {Promise<Object[]>} Tableau contenant les éléments de la liste filtrés.
  */
 const getFilterListItemsBySearch = async (search, list) => {
     filterItems = [];
@@ -151,7 +154,7 @@ const getFilterListItemsBySearch = async (search, list) => {
  * description : Récupère les ingrédients depuis un tableau de recettes, en fonction d'une recherche et/ou de filtres.
  * @param {Object[]} recipes - Tableau contenant les recettes.
  * @param {Object[]} query - Tableau contenant les filtres et la recherche.
- * @returns {Object[]} Tableau contenant les ingrédients filtrés.
+ * @returns {Promise<Object[]>} Tableau contenant les ingrédients filtrés.
  */
 const getIngredientsInFilterRecipes = async (recipes, query) => {
     let ingredientsTags = [];
@@ -175,7 +178,7 @@ const getIngredientsInFilterRecipes = async (recipes, query) => {
  * description : Récupère les appareils depuis un tableau de recettes, en fonction d'une recherche et/ou de filtres.
  * @param {Object[]} recipes - Tableau contenant les recettes.
  * @param {Object[]} query - Tableau contenant les filtres et la recherche.
- * @returns {Object[]} Tableau contenant les appareils filtrés.
+ * @returns {Promise<Object[]>} Tableau contenant les appareils filtrés.
  */
 const getAppliancesInFilterRecipes = async (recipes, query) => {
     let appliancesTags = [];
@@ -205,7 +208,7 @@ const getAppliancesInFilterRecipes = async (recipes, query) => {
  * description : Récupère les ustensiles depuis un tableau de recettes, en fonction d'une recherche et/ou de filtres.
  * @param {Object[]} recipes - Tableau contenant les recettes.
  * @param {Object[]} query - Tableau contenant les filtres et la recherche.
- * @returns {Object[]} Tableau contenant les ustensiles filtrés.
+ * @returns {Promise<Object[]>} Tableau contenant les ustensiles filtrés.
  */
 const getUstensilsInFilterRecipes = async (recipes, query) => {
     let ustensilsTags = [];
@@ -232,5 +235,27 @@ const getUstensilsInFilterRecipes = async (recipes, query) => {
     return ustensilsInFilterRecipes;
 };
 
+/**
+ * description : Récupère les éléments d'une liste, en fonction d'une recherche et/ou de filtres.
+ * @returns {Promise<Object[]>} Tableau contenant les éléments de la liste filtrés.
+ */
+const getItemsInFilterList = async () => {
+    let recipes = currentRecipes ? currentRecipes : await getAllRecipes();
+    let query = currentQuery ? currentQuery : "";
+    let filterList;
+    const filterListFuncMap = {
+        "sorting-bar-ingredients": getIngredientsInFilterRecipes,
+        "sorting-bar-appliances": getAppliancesInFilterRecipes,
+        "sorting-bar-ustensils": getUstensilsInFilterRecipes,
+    };
 
-export { getAllRecipes, getIngredientsFromRecipes, getAppliancesFromRecipes, getUstensilsFromRecipes, getRecipesByQuery, getFilterListItemsBySearch, oldRecipesArray, getIngredientsInFilterRecipes, getAppliancesInFilterRecipes, getUstensilsInFilterRecipes };
+    const filterListFunc = filterListFuncMap[currentListContainer.id];
+    if (filterListFunc) {
+        filterList = await filterListFunc(recipes, query);
+    }
+
+    return filterList;
+};
+
+
+export { getAllRecipes, getIngredientsFromRecipes, getAppliancesFromRecipes, getUstensilsFromRecipes, getRecipesByQuery, getFilterListItemsBySearch, oldRecipesArray, getIngredientsInFilterRecipes, getAppliancesInFilterRecipes, getUstensilsInFilterRecipes, getItemsInFilterList };

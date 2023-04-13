@@ -1,7 +1,7 @@
 import { getFilterListItemDOM } from "../../models/filter-listModel.js";
 import { sortingBarObj, sortingBarItemsEvent } from "../../controllers/filter.js";
 import { getFilterListItemsBySearch, getIngredientsInFilterRecipes, getAppliancesInFilterRecipes, getUstensilsInFilterRecipes } from "../get/get.js";
-import { getAllRecipes } from "../get/get.js";
+import { getItemsInFilterList } from "../get/get.js";
 
 
 let currentListContainer = null; /* stocke le conteneur de la liste actuellement déroulée */
@@ -83,30 +83,11 @@ const checkIfClickIsOutsideFilter = async (e) => {
     }
 };
 
-
 /**
  * description : fonction de réinitialisation de la liste de filtre.
  */
 const resetFilterListItems = async () => {
-    let recipes;
-    currentRecipes ? recipes = currentRecipes : recipes = await getAllRecipes();
-    let query;
-    currentQuery ? query = currentQuery : query = "";
-    let filterList;
-    switch (currentListContainer.id) {
-    case "sorting-bar-ingredients":
-        filterList = await getIngredientsInFilterRecipes(recipes, query);
-        break;
-    case "sorting-bar-appliances":
-        filterList = await getAppliancesInFilterRecipes(recipes, query);
-        break;
-    case "sorting-bar-ustensils":
-        filterList = await getUstensilsInFilterRecipes(recipes, query);
-        break;
-    default:
-        break;
-    }
-
+    let filterList = await getItemsInFilterList();
     displayItemsInFilterList(currentList, filterList);
 };
 
@@ -116,26 +97,7 @@ const resetFilterListItems = async () => {
  */
 const displayFilterListBySearch = async (e) => {
     let filterListSearch = e.target.value;
-    let recipes;
-    currentRecipes ? recipes = currentRecipes : recipes = await getAllRecipes();
-    let query;
-    currentQuery ? query = currentQuery : query = "";
-
-    let filterList;
-    switch (currentListContainer.id) {
-    case "sorting-bar-ingredients":
-        filterList = await getIngredientsInFilterRecipes(recipes, query);
-        break;
-    case "sorting-bar-appliances":
-        filterList = await getAppliancesInFilterRecipes(recipes, query);
-        break;
-    case "sorting-bar-ustensils":
-        filterList = await getUstensilsInFilterRecipes(recipes, query);
-        break;
-    default:
-        break;
-    }
-
+    let filterList = await getItemsInFilterList();
     let items = await getFilterListItemsBySearch(filterListSearch, filterList);
     displayItemsInFilterList(currentList, items);
 };
@@ -157,4 +119,4 @@ const displayFilterListItemsByVisibleRecipes = async (recipes, query) => {
     displayItemsInFilterList(sortingBarObj["sorting-bar-ustensils"].list, ustensilsList);
 };
 
-export { displayItemsInFilterList, displayFilterList, displayFilterListBySearch, displayFilterListItemsByVisibleRecipes };
+export { displayItemsInFilterList, displayFilterList, displayFilterListBySearch, displayFilterListItemsByVisibleRecipes, currentRecipes, currentQuery, currentListContainer };

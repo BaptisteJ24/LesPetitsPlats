@@ -1,0 +1,53 @@
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 20px;
+    list-style: none;
+
+
+    &__item {
+        font-size: 14px;
+        font-weight: 700;
+
+        &__container {
+            margin: 0 10px 0px 0;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            pointer-events: all;
+
+            * {
+                pointer-events: none;
+            }
+
+            &--blue {
+                background-color: #3282F7;
+                color: #FFFFFF;
+            }
+
+            &--green {
+                background-color: #68D9A4;
+                color: #FFFFFF;
+            }
+
+            &--orange {
+                background-color: #ED6454;
+                color: #FFFFFF;
+            }
+        }
+
+        &__close-btn {
+            border: 0;
+            background-color: transparent;
+            color: inherit;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+    }
+}
