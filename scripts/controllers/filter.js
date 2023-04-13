@@ -2,16 +2,16 @@ import { displayFilterList, displayFilterListBySearch } from "../views/display/f
 import { displayNewTag } from "../views/display/tags";
 import { displayRecipesByQuery } from "../views/display/recipes";
 
-const sortingBarArray = Array.from(document.querySelectorAll(".sorting-bar"));
-const sortingBarObj = {};
+const filterArray = Array.from(document.querySelectorAll(".filter"));
+const filterObj = {};
 
-sortingBarArray.forEach((sortingBar) => {
-    const labelTitle = sortingBar.querySelector(".sorting-bar__label-title");
-    const searchInput = sortingBar.querySelector(".sorting-bar__search");
-    const chevron = sortingBar.querySelector(".sorting-bar__icon");
-    const list = sortingBar.querySelector(".sorting-bar__list");
+filterArray.forEach((filter) => {
+    const labelTitle = filter.querySelector(".filter__label-title");
+    const searchInput = filter.querySelector(".filter__search");
+    const chevron = filter.querySelector(".filter__icon");
+    const list = filter.querySelector(".filter__list");
 
-    sortingBarObj[sortingBar.id] = {
+    filterObj[filter.id] = {
         labelTitle,
         searchInput,
         chevron,
@@ -19,20 +19,20 @@ sortingBarArray.forEach((sortingBar) => {
     };
 });
 
-const sortingBarEvent = () => {
-    sortingBarArray.forEach((sortingBar) => {
-        sortingBar.addEventListener("click", displayFilterList);
-        sortingBarObj[sortingBar.id].searchInput.addEventListener("keyup", displayFilterListBySearch);
+const filterEvent = () => {
+    filterArray.forEach((filter) => {
+        filter.addEventListener("click", displayFilterList);
+        filterObj[filter.id].searchInput.addEventListener("keyup", displayFilterListBySearch);
     });
 };
 
-const sortingBarItemsEvent = (filter) => {
-    let sortingBarItemsDOM = Array.from(filter.querySelectorAll(".sorting-bar__item"));
-    sortingBarItemsDOM.forEach((item) => {
+const filterItemsEvent = (filter) => {
+    let filterItemsDOM = Array.from(filter.querySelectorAll(".filter__item"));
+    filterItemsDOM.forEach((item) => {
         item.addEventListener("click", displayNewTag);
         item.addEventListener("click", displayRecipesByQuery);
     });
 };
 
-export { sortingBarEvent, sortingBarItemsEvent, sortingBarObj };
+export { filterEvent, filterItemsEvent, filterObj };
 

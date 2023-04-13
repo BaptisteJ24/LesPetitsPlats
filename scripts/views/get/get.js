@@ -244,9 +244,9 @@ const getItemsInFilterList = async () => {
     let query = currentQuery ? currentQuery : "";
     let filterList;
     const filterListFuncMap = {
-        "sorting-bar-ingredients": getIngredientsInFilterRecipes,
-        "sorting-bar-appliances": getAppliancesInFilterRecipes,
-        "sorting-bar-ustensils": getUstensilsInFilterRecipes,
+        "filter-ingredients": getIngredientsInFilterRecipes,
+        "filter-appliances": getAppliancesInFilterRecipes,
+        "filter-ustensils": getUstensilsInFilterRecipes,
     };
 
     const filterListFunc = filterListFuncMap[currentListContainer.id];

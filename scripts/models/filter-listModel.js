@@ -1,6 +1,6 @@
 const getFilterListItemDOM = (filterListItem, list) => {
     const filterListItemDOM = document.createElement("li");
-    filterListItemDOM.className = "sorting-bar__item";
+    filterListItemDOM.className = "filter__item";
     filterListItemDOM.setAttribute("tabindex", "0");
     filterListItemDOM.setAttribute("data-event", "adding");
     const typeMap = {

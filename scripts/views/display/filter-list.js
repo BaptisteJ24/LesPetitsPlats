@@ -1,5 +1,5 @@
 import { getFilterListItemDOM } from "../../models/filter-listModel.js";
-import { sortingBarObj, sortingBarItemsEvent } from "../../controllers/filter.js";
+import { filterObj, filterItemsEvent } from "../../controllers/filter.js";
 import { getFilterListItemsBySearch, getIngredientsInFilterRecipes, getAppliancesInFilterRecipes, getUstensilsInFilterRecipes } from "../get/get.js";
 import { getItemsInFilterList } from "../get/get.js";
 
@@ -20,7 +20,7 @@ const displayItemsInFilterList = (list, items) => {
         const itemDOM = getFilterListItemDOM(item, list);
         list.appendChild(itemDOM);
     });
-    sortingBarItemsEvent(list);
+    filterItemsEvent(list);
 };
 
 /**
@@ -43,9 +43,9 @@ const displayFilterList = async (e) => {
  */
 const showFilterList = async (e) => {
     currentListContainer = e.currentTarget;
-    const { labelTitle, searchInput, chevron, list } = sortingBarObj[currentListContainer.id];
+    const { labelTitle, searchInput, chevron, list } = filterObj[currentListContainer.id];
     currentList = list;
-    currentListContainer.classList.add("sorting-bar--large");
+    currentListContainer.classList.add("filter--large");
     currentListContainer.setAttribute("aria-expanded", "true");
     labelTitle.classList.add("hidden");
     searchInput.classList.remove("hidden");
@@ -58,8 +58,8 @@ const showFilterList = async (e) => {
  * description : fonction de masquage de la liste de filtre.
  */
 const hideFilterList = async () => {
-    const { labelTitle, searchInput, chevron, list } = sortingBarObj[currentListContainer.id];
-    currentListContainer.classList.remove("sorting-bar--large");
+    const { labelTitle, searchInput, chevron, list } = filterObj[currentListContainer.id];
+    currentListContainer.classList.remove("filter--large");
     currentListContainer.setAttribute("aria-expanded", "false");
     labelTitle.classList.remove("hidden");
     searchInput.classList.add("hidden");
@@ -114,9 +114,9 @@ const displayFilterListItemsByVisibleRecipes = async (recipes, query) => {
     const appliancesList = await getAppliancesInFilterRecipes(recipes, query);
     const ustensilsList = await getUstensilsInFilterRecipes(recipes, query);
 
-    displayItemsInFilterList(sortingBarObj["sorting-bar-ingredients"].list, ingredientsList);
-    displayItemsInFilterList(sortingBarObj["sorting-bar-appliances"].list, appliancesList);
-    displayItemsInFilterList(sortingBarObj["sorting-bar-ustensils"].list, ustensilsList);
+    displayItemsInFilterList(filterObj["filter-ingredients"].list, ingredientsList);
+    displayItemsInFilterList(filterObj["filter-appliances"].list, appliancesList);
+    displayItemsInFilterList(filterObj["filter-ustensils"].list, ustensilsList);
 };
 
 export { displayItemsInFilterList, displayFilterList, displayFilterListBySearch, displayFilterListItemsByVisibleRecipes, currentRecipes, currentQuery, currentListContainer };
