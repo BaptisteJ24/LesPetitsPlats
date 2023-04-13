@@ -1,8 +1,8 @@
 import { getAllRecipes, getIngredientsFromRecipes, getAppliancesFromRecipes, getUstensilsFromRecipes } from "./get/get.js";
 import { displayRecipes } from "./display/recipes.js";
 import { displayItemsInFilterList } from "./display/filter-list.js";
-import { sortingBarEvent } from "../controllers/filter.js";
-import { sortingBarObj } from "../controllers/filter.js";
+import { filterEvent } from "../controllers/filter.js";
+import { filterObj } from "../controllers/filter.js";
 
 /**
  * @description Initialise les recettes et les filtres, puis les affiche dans le DOM.
@@ -16,22 +16,22 @@ const initRecipes = async () => {
     displayRecipes(recipes);
     
     let items;
-    Object.keys(sortingBarObj).forEach((key) => {
+    Object.keys(filterObj).forEach((key) => {
         switch (key) {
-        case "sorting-bar-ingredients":
+        case "filter-ingredients":
             items = ingredients;
             break;
-        case "sorting-bar-appliances":
+        case "filter-appliances":
             items = appliances;
             break;
-        case "sorting-bar-ustensils":
+        case "filter-ustensils":
             items = ustensils;
             break;
         }
-        displayItemsInFilterList(sortingBarObj[key].list, items);
+        displayItemsInFilterList(filterObj[key].list, items);
     });
     
-    sortingBarEvent();
+    filterEvent();
 };
 
 export { initRecipes };
