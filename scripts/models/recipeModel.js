@@ -34,17 +34,17 @@ const recipeFactory = (recipe) => {
                 <div class="recipe__details">
                     <p class="recipe__ingredients">
                         ${myRecipe.ingredients.map((ingredient) => {
-        let { ingredient: ingredientName, quantity: ingredientQuantity, unit: ingredientUnit } = ingredient;
+                            let { ingredient: ingredientName, quantity: ingredientQuantity, unit: ingredientUnit } = ingredient;
 
-        if (ingredientUnit === "grammes") {
-            ingredientUnit = "g";
-        }
+                            if (ingredientUnit === "grammes") {
+                                ingredientUnit = "g";
+                            }
 
-        let ingredientNameDOM = `<span class="recipe__ingredient recipe__ingredient--bold">${ingredientName}</span>`;
-        let ingredientQuantityUnit = ingredientQuantity ? ` : ${ingredientQuantity || ""} ${ingredientUnit || ""}` : "";
-        let ingredientDOM = `<span class="recipe__ingredient">${ingredientNameDOM}${ingredientQuantityUnit}</span>`;
-        return ingredientDOM;
-    }).join("")}
+                            let ingredientNameDOM = `<span class="recipe__ingredient recipe__ingredient--bold">${ingredientName}</span>`;
+                            let ingredientQuantityUnit = ingredientQuantity ? ` : ${ingredientQuantity || ""} ${ingredientUnit || ""}` : "";
+                            let ingredientDOM = `<span class="recipe__ingredient">${ingredientNameDOM}${ingredientQuantityUnit}</span>`;
+                            return ingredientDOM;
+                        }).join("")}
                     </p>
                     <p class="recipe__description">${myRecipe.description}</p>
                 </div>

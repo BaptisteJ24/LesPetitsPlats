@@ -18,15 +18,15 @@ const initRecipes = async () => {
     let items;
     Object.keys(filterObj).forEach((key) => {
         switch (key) {
-        case "filter-ingredients":
-            items = ingredients;
-            break;
-        case "filter-appliances":
-            items = appliances;
-            break;
-        case "filter-ustensils":
-            items = ustensils;
-            break;
+            case "filter-ingredients":
+                items = ingredients;
+                break;
+            case "filter-appliances":
+                items = appliances;
+                break;
+            case "filter-ustensils":
+                items = ustensils;
+                break;
         }
         displayItemsInFilterList(filterObj[key].list, items);
     });
