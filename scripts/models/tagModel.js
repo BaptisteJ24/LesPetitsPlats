@@ -16,7 +16,7 @@ const getTagDOM = (tag, type) => {
     }
 
     tagLine.innerHTML = `
-        <span class="tag-list__item">${tag}</span>
+        <span class="tag-list__item">${ tag }</span>
         <btn class="tag-list__item__close-btn">
             <span class="far fa-circle-xmark fa-lg"></span>
             <span class="sr-only">Supprimer le tag</span>

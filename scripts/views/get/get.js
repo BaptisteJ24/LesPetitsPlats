@@ -33,7 +33,7 @@ const getIngredientsFromRecipes = async (recipes) => {
     ingredientsArray = [];
     const ingredientsMap = new Map();
     ingredientsArray = recipes.reduce((acc, recipe) => {
-        recipe.ingredients.forEach(ingredient => {
+        recipe.ingredients.filter(ingredient => {
             const { ingredient: ingredientName } = ingredient;
             const formattedIngredient = ingredientName.toLowerCase().trim();
             const singularIngredient = formattedIngredient.replace(/s$/, "");
@@ -84,7 +84,7 @@ const getAppliancesFromRecipes = async (recipes) => {
 const getUstensilsFromRecipes = async (recipes) => {
     ustensilsArray = [];
     ustensilsArray = recipes.reduce((acc, recipe) => {
-        recipe.ustensils.forEach((ustensil) => {
+        recipe.ustensils.filter((ustensil) => {
             const formattedUstensil = ustensil.toLowerCase().trim();
             if (!acc.some((item) => item.toLowerCase().trim() === formattedUstensil)) {
                 acc.push(formattedUstensil.charAt(0).toUpperCase() + formattedUstensil.slice(1));
@@ -106,29 +106,29 @@ const getUstensilsFromRecipes = async (recipes) => {
 const getRecipesByQuery = async (queryArray, recipesArray, method) => {
     let queryFilter = [];
     switch (method) {
-    case "last-element":
-        queryFilter = [queryArray[queryArray.length - 1]];
-        break;
-    case "all-elements":
-        queryFilter = queryArray;
-        break;
-    default:
-        break;
+        case "last-element":
+            queryFilter = [queryArray[queryArray.length - 1]];
+            break;
+        case "all-elements":
+            queryFilter = queryArray;
+            break;
+        default:
+            break;
     }
 
     queryFilter.forEach(query => {
         let filterRecipes = recipesArray.filter(recipe => {
             switch (query.type) {
-            case "search-bar":
-                return recipe.name.toLowerCase().includes(query.value.toLowerCase()) || recipe.description.toLowerCase().includes(query.value.toLowerCase()) || recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
-            case "ingredient":
-                return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
-            case "appliance":
-                return recipe.appliance.toLowerCase().includes(query.value.toLowerCase());
-            case "ustensil":
-                return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(query.value.toLowerCase()));
-            default:
-                break;
+                case "search-bar":
+                    return recipe.name.toLowerCase().includes(query.value.toLowerCase()) || recipe.description.toLowerCase().includes(query.value.toLowerCase()) || recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
+                case "ingredient":
+                    return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query.value.toLowerCase()));
+                case "appliance":
+                    return recipe.appliance.toLowerCase().includes(query.value.toLowerCase());
+                case "ustensil":
+                    return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(query.value.toLowerCase()));
+                default:
+                    break;
             }
         });
         recipesArray = filterRecipes;
@@ -160,7 +160,7 @@ const getIngredientsInFilterRecipes = async (recipes, query) => {
     let ingredientsTags = [];
     let ingredientsInFilterRecipes = [];
     ingredientsTags = query.length > 0 ? query.filter(item => item.type === "ingredient") : [];
-    
+
     ingredientsInFilterRecipes = await getIngredientsFromRecipes(recipes);
 
     if (ingredientsTags.length > 0) {

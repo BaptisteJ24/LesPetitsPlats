@@ -8,8 +8,15 @@
     padding: 0 20px;
     border-radius: 5px;
     margin-right: 20px;
+    margin-bottom: 10px;
     cursor: pointer;
     z-index: 1;
+
+    @include mobile-only {
+        margin: 10px 0 10px;
+        width: 100%;
+        max-width: 500px;
+    }
 
     &::after {
         content: '';
@@ -31,10 +38,19 @@
 
     &[aria-expanded="true"] {
         border-radius: 5px 5px 0 0;
+        z-index: unset;
     }
 
     &--large {
-        width: 45vw;
+        width: 100%;
+
+        @include tablet-and-more {
+            width: 45vw;
+        }
+
+        @include large-screen-and-more { 
+            width: 45vw;
+        }
     }
 
     &__container {
@@ -43,6 +59,10 @@
         width: 100%;
         height: 100%;
         margin-bottom: 30px;
+        @include mobile-only {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
     }
 
     &--blue {
@@ -120,12 +140,17 @@
         align-items: center;
         justify-content: flex-start;
         width: 100%;
-        max-height: 300px;
+        max-height: 215px;
         overflow-y: auto;
         overflow-x: hidden;
         list-style: none;
         border-radius: 0 0 5px 5px;
         scrollbar-width: thin;
+        z-index: 5;
+
+        @include tablet-and-more {
+            max-height: 300px;
+        }
         
 
         &::-webkit-scrollbar {
@@ -193,11 +218,17 @@
         font-weight: 700;
         cursor: pointer;
         color: #fff;
-        width: calc(15vw - 3px);
-
+        width: 100%;
         font-size: 18px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        @include tablet-and-more {
+            width: calc(45vw / 2 - 3px);
+        }
+        @include large-screen-and-more {
+            width: calc(15vw - 3px);
+        }
     }
 }

@@ -11,7 +11,7 @@ const getAllData = async (url) => {
         return data;
     }
     catch (error) {
-        console.error(`Erreur lors de la récupération des données : ${error}`);
+        console.error(`Erreur lors de la récupération des données : ${ error }`);
     }
 };
 
@@ -28,7 +28,7 @@ const getDataByProperty = async (url, property) => {
         const dataByProperty = data[property];
         return dataByProperty;
     } catch (error) {
-        console.error(`Erreur lors de la récupération des données : ${error}`);
+        console.error(`Erreur lors de la récupération des données : ${ error }`);
     }
 };
 

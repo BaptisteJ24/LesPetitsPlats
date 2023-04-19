@@ -36,20 +36,20 @@ const displayRecipesByQuery = async (e) => {
     recipesArrayToFilter = [];
 
     switch (e.target.dataset.type) {
-    case "search-bar": {
-        if (newQuery.value.length >= 3) {
-            await handleNewQueryIsSearchBar(newQuery);
+        case "search-bar": {
+            if (newQuery.value.length >= 3) {
+                await handleNewQueryIsSearchBar(newQuery);
+            }
+            else {
+                handleNewQueryIsTinySearchBar();
+                return;
+            }
+            break;
         }
-        else {
-            handleNewQueryIsTinySearchBar();
-            return;
+        case "ingredient": case "appliance": case "ustensil": {
+            await handleNewQueryIsTag(newQuery);
+            break;
         }
-        break;
-    }
-    case "ingredient": case "appliance": case "ustensil": {
-        await handleNewQueryIsTag(newQuery);
-        break;
-    }
     }
     let recipes = await getRecipesByQuery(queryArray, recipesArrayToFilter, sortMethod);
     displayRecipes(recipes);
@@ -65,23 +65,23 @@ const displayRecipesByQuery = async (e) => {
 const getNewQuery = (e) => {
     let query;
     switch (e.target.dataset.type) {
-    case "search-bar": {
-        query = { value: e.target.value, type: e.target.dataset.type };
-        break;
-    }
-    case "ingredient": case "appliance": case "ustensil": {
-        switch (e.target.dataset.event) {
-        case "adding": {
-            query = { value: e.target.textContent, type: e.target.dataset.type, event: e.target.dataset.event };
+        case "search-bar": {
+            query = { value: e.target.value, type: e.target.dataset.type };
             break;
         }
-        case "removing": {
-            query = { value: e.target.querySelector(".tag-list__item").textContent, type: e.target.dataset.type, event: e.target.dataset.event };
+        case "ingredient": case "appliance": case "ustensil": {
+            switch (e.target.dataset.event) {
+                case "adding": {
+                    query = { value: e.target.textContent, type: e.target.dataset.type, event: e.target.dataset.event };
+                    break;
+                }
+                case "removing": {
+                    query = { value: e.target.querySelector(".tag-list__item").textContent, type: e.target.dataset.type, event: e.target.dataset.event };
+                    break;
+                }
+            }
             break;
         }
-        }
-        break;
-    }
     }
     return query;
 };
@@ -150,19 +150,19 @@ const handleNewQueryIsTinySearchBar = async () => {
  */
 const handleNewQueryIsTag = async (newQuery) => {
     switch (newQuery.event) {
-    case "adding": {
-        queryArray.push(newQuery);
-        recipesArrayToFilter = oldRecipesArray.length === 0 ? await getAllRecipes() : oldRecipesArray;
-        sortMethod = "last-element";
-        break;
-    }
+        case "adding": {
+            queryArray.push(newQuery);
+            recipesArrayToFilter = oldRecipesArray.length === 0 ? await getAllRecipes() : oldRecipesArray;
+            sortMethod = "last-element";
+            break;
+        }
 
-    case "removing": {
-        queryArray = queryArray.filter(query => query.value !== newQuery.value || query.type !== newQuery.type);
-        recipesArrayToFilter = await getAllRecipes();
-        sortMethod = "all-elements";
-        break;
-    }
+        case "removing": {
+            queryArray = queryArray.filter(query => query.value !== newQuery.value || query.type !== newQuery.type);
+            recipesArrayToFilter = await getAllRecipes();
+            sortMethod = "all-elements";
+            break;
+        }
     }
 
     return { queryArray, recipesArrayToFilter, sortMethod };

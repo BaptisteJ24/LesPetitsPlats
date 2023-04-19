@@ -6,7 +6,18 @@
 }
 
 body {
-    padding: 40px 100px;
+    width : 100%;
+    height : 100%;
+    @include desktop-and-more {
+      padding: 40px 100px;
+    }
+    @include tablet-and-more {
+      padding: 40px 50px;
+    }
+    @include mobile-only {
+      min-width: 320px;
+      padding: 40px 20px;
+    }
 }
 
 input[type="search"]::-webkit-search-decoration,
