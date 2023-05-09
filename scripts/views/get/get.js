@@ -115,7 +115,7 @@ const getRecipesByQuery = async (queryArray, recipesArray, method) => {
         default:
             break;
     }
-
+    console.log("recipesArray", recipesArray);
     queryFilter.forEach(query => {
         let filterRecipes = recipesArray.filter(recipe => {
             switch (query.type) {
