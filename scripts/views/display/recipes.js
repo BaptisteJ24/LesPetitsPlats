@@ -151,7 +151,6 @@ const handleNewQueryIsTinySearchBar = async () => {
 const handleNewQueryIsTag = async (newQuery) => {
     switch (newQuery.event) {
         case "adding": {
-            console.log("adding", queryArray);
             recipesArrayToFilter = oldRecipesArray.length === 0 || queryArray.length === 0 ? await getAllRecipes() : oldRecipesArray;
             queryArray.push(newQuery);
             sortMethod = "last-element";
