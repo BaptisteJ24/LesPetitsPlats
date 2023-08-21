@@ -1,4 +1,4 @@
-# Projet_7_LesPetitsPlats
+# LesPetitsPlats
 
 Mission : Développez un algorithme de recherche en JavaScript.
 
@@ -8,7 +8,8 @@ Compétences :
 
 Fait par : Baptiste JAN
 
-Disponible sur : https://github.com/BaptisteJ24/Projet_7_LesPetitsPlats
-Visible à l'adresse : https://baptistej24.github.io/Projet_7_LesPetitsPlats/
+Disponible sur : https://github.com/BaptisteJ24/LesPetitsPlats
+
+Visible à l'adresse : https://baptistej24.github.io/LesPetitsPlats/
 
 Mis à jour le 22/03/2023.
